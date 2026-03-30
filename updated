@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="ReferMe">
+<meta name="color-scheme" content="light only">
+<title>ReferMe — Behavioral Health Referral Engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:wght@400;500;700&family=Roboto:wght@300;400;500;700&family=Product+Sans:wght@400&display=swap" rel="stylesheet">
+<style>
+@font-face {
+  font-family: 'Product Sans';
+  src: url('https://fonts.gstatic.com/s/productsans/v5/HYvgU2fE2nRJvZ5JFAumwegdm0LZdjqr5-oayXSOefg.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#FFFFFF;
+  --surface:#FFFFFF;
+  --text:#202124;
+  --text-secondary:#5F6368;
+  --accent:#1A73E8;
+  --accent-light:#E8F0FE;
+  --accent-hover:#1967D2;
+  --border:#DADCE0;
+  --tag-mh:#1A73E8;
+  --tag-mh-bg:#E8F0FE;
+  --tag-su:#EA4335;
+  --tag-su-bg:#FCE8E6;
+  --tag-dual:#9334E6;
+  --tag-dual-bg:#F3E8FD;
+  --tag-ins:#0D652D;
+  --tag-ins-bg:#E6F4EA;
+  --tag-alf:#E37400;
+  --tag-alf-bg:#FEF7E0;
+  --shadow:0 1px 2px 0 rgba(60,64,67,0.3),0 1px 3px 1px rgba(60,64,67,0.15);
+  --shadow-lg:0 1px 3px 0 rgba(60,64,67,0.3),0 4px 8px 3px rgba(60,64,67,0.15);
+  --radius:8px;
+  --radius-sm:8px;
+  --radius-pill:24px;
+  --font-body:'Roboto',sans-serif;
+  --font-display:'Google Sans','Roboto',sans-serif;
+}
+html{font-size:16px;-webkit-text-size-adjust:100%}
+body{
+  font-family:var(--font-body);
+  background:var(--bg);
+  color:var(--text);
+  min-height:100dvh;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+
+/* Header */
+.header{
+  background:#FFFFFF;
+  padding:48px 20px 8px;
+  text-align:center;
+}
+.header-title{
+  font-family:'Product Sans','Google Sans','Roboto',sans-serif;
+  font-size:3.2rem;
+  font-weight:400;
+  letter-spacing:-0.5px;
+  line-height:1.15;
+  color:var(--text);
+}
+.header-title span.g-blue{color:#4285F4}
+.header-title span.g-red{color:#EA4335}
+.header-title span.g-yellow{color:#FBBC04}
+.header-title span.g-green{color:#34A853}
+.header-sub{
+  font-size:0.8rem;
+  color:var(--text-secondary);
+  margin-top:6px;
+  font-weight:400;
+  letter-spacing:0.01em;
+}
+
+/* Search */
+.search-wrap{
+  padding:20px 24px 8px;
+  background:#FFFFFF;
+  max-width:560px;
+  margin:0 auto;
+}
+.search-bar{
+  display:flex;align-items:center;gap:10px;
+  background:#FFFFFF;
+  border:1px solid var(--border);
+  border-radius:var(--radius-pill);
+  padding:12px 18px;
+  box-shadow:none;
+  transition:box-shadow .25s;
+}
+.search-bar:hover{
+  box-shadow:0 1px 6px rgba(32,33,36,0.28);
+}
+.search-bar:focus-within{
+  box-shadow:0 1px 6px rgba(32,33,36,0.28);
+  border-color:transparent;
+}
+.search-icon{flex-shrink:0;width:18px;height:18px;color:var(--text-secondary)}
+.search-input{
+  flex:1;border:none;outline:none;background:none;
+  font-size:0.95rem;font-family:var(--font-body);color:var(--text);
+}
+.search-input::placeholder{color:var(--text-secondary)}
+.search-clear{
+  flex-shrink:0;width:20px;height:20px;border:none;background:none;
+  cursor:pointer;color:var(--text-secondary);padding:0;
+  display:none;
+}
+.search-clear.visible{display:block}
+
+/* Filters */
+.filters{
+  padding:10px 20px 14px;
+  position:sticky;top:0;z-index:80;
+  background:#FFFFFF;
+  max-height:45vh;
+  overflow-y:auto;
+  border-bottom:1px solid var(--border);
+}
+.filter-row{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch}
+.filter-row::-webkit-scrollbar{display:none}
+.filter-chip{
+  flex-shrink:0;
+  padding:6px 14px;
+  border-radius:var(--radius-pill);
+  font-size:0.8rem;
+  font-weight:500;
+  border:1px solid var(--border);
+  background:#FFFFFF;
+  color:var(--text-secondary);
+  cursor:pointer;
+  transition:all .15s;
+  white-space:nowrap;
+  -webkit-tap-highlight-color:transparent;
+}
+.filter-chip:hover{background:#F1F3F4}
+.filter-chip.active{
+  background:var(--accent-light);
+  color:var(--accent);
+  border-color:var(--accent);
+}
+.filter-chip.active-mh{background:var(--tag-mh-bg);border-color:var(--tag-mh);color:var(--tag-mh)}
+.filter-chip.active-su{background:var(--tag-su-bg);border-color:var(--tag-su);color:var(--tag-su)}
+.filter-chip.active-dual{background:var(--tag-dual-bg);border-color:var(--tag-dual);color:var(--tag-dual)}
+.filter-chip.active-alf{background:var(--tag-alf-bg);border-color:var(--tag-alf);color:var(--tag-alf)}
+.filter-chip.active-pc{background:var(--tag-pc-bg);border-color:var(--tag-pc);color:var(--tag-pc)}
+.filter-chip.active-aba{background:var(--tag-aba-bg);border-color:var(--tag-aba);color:var(--tag-aba)}
+.filter-chip.active-youth{background:var(--tag-youth-bg);border-color:var(--tag-youth);color:var(--tag-youth)}
+.filter-chip.active-np{background:var(--tag-np-bg);border-color:var(--tag-np);color:var(--tag-np)}
+.filter-label{
+  font-size:0.7rem;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--text-secondary);
+  margin-bottom:5px;
+}
+.filter-section+.filter-section{margin-top:8px}
+
+/* Results */
+.results{padding:16px 20px 100px;background:#F8F9FA}
+.results-count{
+  font-size:0.78rem;
+  color:var(--text-secondary);
+  margin-bottom:12px;
+  font-weight:400;
+}
+
+/* Facility Card */
+.card{
+  background:var(--surface);
+  border-radius:var(--radius);
+  padding:16px;
+  margin-bottom:10px;
+  box-shadow:0 1px 2px rgba(60,64,67,0.1);
+  border:1px solid var(--border);
+  transition:box-shadow .2s,transform .15s;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.card:active{box-shadow:var(--shadow)}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.card-name{
+  font-family:var(--font-display);
+  font-size:1rem;
+  font-weight:500;
+  line-height:1.3;
+  color:var(--text);
+}
+.card-diagnosis{
+  flex-shrink:0;
+  font-size:0.65rem;
+  font-weight:500;
+  padding:3px 8px;
+  border-radius:4px;
+  letter-spacing:0.02em;
+  white-space:nowrap;
+}
+.diag-mh{background:var(--tag-mh-bg);color:var(--tag-mh)}
+.diag-su{background:var(--tag-su-bg);color:var(--tag-su)}
+.diag-dual{background:var(--tag-dual-bg);color:var(--tag-dual)}
+.diag-alf{background:var(--tag-alf-bg);color:var(--tag-alf)}
+.diag-pc{background:var(--tag-pc-bg);color:var(--tag-pc)}
+.diag-aba{background:var(--tag-aba-bg);color:var(--tag-aba)}
+.diag-youth{background:var(--tag-youth-bg);color:var(--tag-youth)}
+.diag-np{background:var(--tag-np-bg);color:var(--tag-np)}
+
+.card-location{
+  font-size:0.82rem;
+  color:var(--text-secondary);
+  margin-top:4px;
+  display:flex;align-items:center;gap:4px;
+}
+.card-location svg{width:13px;height:13px;flex-shrink:0}
+
+.card-treatments{
+  display:flex;flex-wrap:wrap;gap:4px;
+  margin-top:10px;
+}
+.treat-tag{
+  font-size:0.68rem;
+  padding:3px 8px;
+  border-radius:4px;
+  background:#F1F3F4;
+  color:var(--text-secondary);
+  font-weight:500;
+}
+
+.card-insurances{margin-top:10px}
+.ins-label{
+  font-size:0.65rem;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--text-secondary);
+  margin-bottom:4px;
+}
+.ins-tags{display:flex;flex-wrap:wrap;gap:4px}
+.ins-tag{
+  font-size:0.68rem;
+  padding:3px 8px;
+  border-radius:4px;
+  background:var(--tag-ins-bg);
+  color:var(--tag-ins);
+  font-weight:500;
+}
+.ins-tag.unverified{
+  background:#FEF7E0;
+  color:#B06000;
+  border:1px dashed #FBBC04;
+}
+
+.card-actions{
+  display:flex;gap:8px;margin-top:12px;
+  border-top:1px solid var(--border);
+  padding-top:12px;
+}
+.card-btn{
+  flex:1;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:9px 0;
+  border-radius:var(--radius-pill);
+  font-size:0.78rem;
+  font-weight:500;
+  text-decoration:none;
+  transition:background .15s;
+  -webkit-tap-highlight-color:transparent;
+}
+.btn-call{background:var(--accent-light);color:var(--accent)}
+.btn-call:active{background:#D2E3FC}
+.btn-web{background:#F1F3F4;color:var(--text)}
+.btn-web:active{background:#DADCE0}
+.card-btn svg{width:14px;height:14px}
+
+/* Detail Modal */
+.modal-overlay{
+  position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,0.32);
+  opacity:0;pointer-events:none;
+  transition:opacity .25s;
+}
+.modal-overlay.open{opacity:1;pointer-events:auto}
+.modal{
+  position:fixed;bottom:0;left:0;right:0;z-index:201;
+  background:var(--surface);
+  border-radius:16px 16px 0 0;
+  max-height:85dvh;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  transform:translateY(100%);
+  transition:transform .3s cubic-bezier(0.32,0.72,0,1);
+}
+.modal-overlay.open .modal{transform:translateY(0)}
+.modal-handle{
+  width:32px;height:4px;
+  background:#DADCE0;
+  border-radius:2px;
+  margin:10px auto 0;
+}
+.modal-content{padding:20px 20px 40px}
+.modal-name{
+  font-family:var(--font-display);
+  font-size:1.25rem;
+  font-weight:500;
+  line-height:1.3;
+  color:var(--text);
+}
+.modal-addr{font-size:0.85rem;color:var(--text-secondary);margin-top:4px}
+.modal-section{margin-top:20px}
+.modal-section-title{
+  font-size:0.7rem;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--text-secondary);
+  margin-bottom:8px;
+}
+.modal-tags{display:flex;flex-wrap:wrap;gap:5px}
+.modal-actions{
+  display:flex;gap:10px;margin-top:20px;
+}
+.modal-action-btn{
+  flex:1;
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  padding:12px 0;
+  border-radius:var(--radius-pill);
+  font-size:0.85rem;
+  font-weight:500;
+  text-decoration:none;
+  border:none;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.modal-btn-call{background:var(--accent);color:#fff}
+.modal-btn-web{background:var(--accent-light);color:var(--accent)}
+.modal-btn-call svg,.modal-btn-web svg{width:16px;height:16px}
+
+.verified-badge{
+  display:inline-flex;align-items:center;gap:3px;
+  font-size:0.62rem;
+  color:var(--accent);
+  font-weight:500;
+  margin-left:6px;
+}
+.verified-badge svg{width:11px;height:11px}
+
+/* Empty State */
+.empty{
+  text-align:center;padding:60px 20px;
+}
+.empty-icon{font-size:2.5rem;margin-bottom:12px;opacity:0.4}
+.empty-text{font-size:0.9rem;color:var(--text-secondary);line-height:1.5}
+
+/* Animations */
+@keyframes slideUp{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.card{animation:slideUp .3s ease both}
+.card:nth-child(2){animation-delay:.03s}
+.card:nth-child(3){animation-delay:.06s}
+.card:nth-child(4){animation-delay:.09s}
+.card:nth-child(5){animation-delay:.12s}
+
+/* iPhone safe areas & responsive */
+@supports(padding: max(0px)) {
+  body{
+    padding-left:env(safe-area-inset-left);
+    padding-right:env(safe-area-inset-right);
+  }
+  .header{padding-top:max(48px, calc(env(safe-area-inset-top) + 16px))}
+  .results{padding-bottom:max(100px, calc(env(safe-area-inset-bottom) + 80px))}
+  .modal-content{padding-bottom:max(40px, calc(env(safe-area-inset-bottom) + 20px))}
+}
+
+/* Mobile: <=480px (iPhone SE, 13 mini, 14, 15, 16) */
+@media(max-width:480px){
+  .header{padding:36px 16px 6px}
+  .header-title{font-size:2.4rem}
+  .header-sub{font-size:0.7rem}
+  .search-wrap{padding:14px 16px 6px}
+  .search-bar{padding:10px 14px}
+  .search-input{font-size:0.9rem}
+  .filters{padding:8px 16px 12px}
+  .filter-chip{padding:6px 12px;font-size:0.75rem;min-height:36px}
+  .results{padding:12px 16px 100px}
+  .card{padding:14px}
+  .card-name{font-size:0.95rem}
+  .card-location{font-size:0.78rem}
+  .card-btn{padding:10px 0;font-size:0.76rem;min-height:40px}
+  .modal-content{padding:16px 16px 32px}
+  .modal-name{font-size:1.15rem}
+  .modal-action-btn{padding:13px 0;font-size:0.82rem;min-height:44px}
+}
+
+/* Larger phones: 481-768px (iPhone Pro Max, Plus models) */
+@media(min-width:481px) and (max-width:768px){
+  .header-title{font-size:2.8rem}
+  .search-wrap{max-width:480px}
+  .results{max-width:600px;margin:0 auto}
+}
+
+/* Tablet / Desktop */
+@media(min-width:769px){
+  .results{max-width:640px;margin:0 auto}
+  .filters{max-width:640px;margin:0 auto;padding-left:0;padding-right:0}
+}
+
+/* Prevent text selection on interactive elements */
+.filter-chip,.card-btn,.modal-action-btn{-webkit-user-select:none;user-select:none}
+
+/* Smooth scrolling on iOS */
+html{-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-title"><span class="g-blue">R</span><span class="g-red">e</span><span class="g-yellow">f</span><span class="g-blue">e</span><span class="g-green">r</span><span class="g-red">M</span><span class="g-blue">e</span></div>
+  <div class="header-sub">Behavioral Health Referral Engine</div>
+</div>
+
+<div class="search-wrap">
+  <div class="search-bar">
+    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
+    <input class="search-input" id="searchInput" type="text" placeholder="Search facilities, insurances, cities…" autocomplete="off" autocorrect="off" spellcheck="false">
+    <button class="search-clear" id="searchClear" onclick="clearSearch()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="filters">
+  <div class="filter-section">
+    <div class="filter-label">Category</div>
+    <div class="filter-row" id="diagnosisFilters">
+      <button class="filter-chip" data-filter="all" onclick="setDiagnosis('all',this)">All</button>
+      <button class="filter-chip" data-filter="Mental Health" onclick="setDiagnosis('Mental Health',this)">Mental Health</button>
+      <button class="filter-chip" data-filter="Substance Use" onclick="setDiagnosis('Substance Use',this)">Substance Use</button>
+      <button class="filter-chip" data-filter="Dual Diagnosis" onclick="setDiagnosis('Dual Diagnosis',this)">Dual Diagnosis</button>
+      <button class="filter-chip" data-filter="Assisted Living" onclick="setDiagnosis('Assisted Living',this)">Assisted Living</button>
+      <button class="filter-chip" data-filter="Primary Care" onclick="setDiagnosis('Primary Care',this)">Primary Care</button>
+      <button class="filter-chip" data-filter="ABA Therapy" onclick="setDiagnosis('ABA Therapy',this)">ABA Therapy</button>
+      <button class="filter-chip" data-filter="Youth Services" onclick="setDiagnosis('Youth Services',this)">Youth Services</button>
+      <button class="filter-chip" data-filter="Nonprofit" onclick="setDiagnosis('Nonprofit',this)">Free / No Insurance</button>
+    </div>
+  </div>
+  <div class="filter-section">
+    <div class="filter-label">Level of Care</div>
+    <div class="filter-row" id="locFilters">
+      <button class="filter-chip active" data-filter="all" onclick="setLOC('all',this)">All</button>
+      <button class="filter-chip" data-filter="Inpatient" onclick="setLOC('Inpatient',this)">Inpatient</button>
+      <button class="filter-chip" data-filter="Outpatient" onclick="setLOC('Outpatient',this)">Outpatient</button>
+      <button class="filter-chip" data-filter="Case Management" onclick="setLOC('Case Management',this)">Case Management</button>
+    </div>
+  </div>
+  <div class="filter-section" id="servicesSection" style="display:none">
+    <div class="filter-label">Outpatient Services</div>
+    <div class="filter-row" id="servicesFilters">
+      <button class="filter-chip active" data-filter="all" onclick="setService('all',this)">All</button>
+      <button class="filter-chip" onclick="setService('TMS',this)">TMS</button>
+      <button class="filter-chip" onclick="setService('ECT',this)">ECT</button>
+      <button class="filter-chip" onclick="setService('MAT',this)">MAT</button>
+      <button class="filter-chip" onclick="setService('CBT',this)">CBT</button>
+      <button class="filter-chip" onclick="setService('DBT',this)">DBT</button>
+      <button class="filter-chip" onclick="setService('EMDR',this)">EMDR</button>
+      <button class="filter-chip" onclick="setService('Trauma Informed',this)">Trauma Informed</button>
+      <button class="filter-chip" onclick="setService('Play Therapy',this)">Play Therapy</button>
+      <button class="filter-chip" onclick="setService('Marriage/Couples',this)">Marriage/Couples</button>
+      <button class="filter-chip" onclick="setService('Family Therapy',this)">Family Therapy</button>
+      <button class="filter-chip" onclick="setService('Group Therapy',this)">Group Therapy</button>
+      <button class="filter-chip" onclick="setService('Psych Evals',this)">Psych Evals</button>
+    </div>
+  </div>
+  <div class="filter-section">
+    <div class="filter-label">Insurance</div>
+    <div class="filter-row" id="insuranceFilters"></div>
+  </div>
+</div>
+
+<div class="results" id="results">
+  <div class="results-count" id="resultsCount"></div>
+  <div id="cardContainer"></div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" onclick="event.stopPropagation()">
+    <div class="modal-handle"></div>
+    <div class="modal-content" id="modalContent"></div>
+  </div>
+</div>
+
+<script>
+const facilities = [
+  {
+    id: 1,
+    name: "Destination Hope",
+    address: "8301 W McNab Rd, Tamarac, FL 33321",
+    city: "Tamarac",
+    phone: "(954) 771-2091",
+    website: "https://destinationhope.com",
+    diagnosis: "Dual Diagnosis",
+    treatments: ["Detox", "Residential", "PHP", "IOP", "Sober Living"],
+    insurances: [
+      {name: "⚠️ Verify — no public list", verified: false}
+    ],
+    focus: "Substance abuse, dual diagnosis, mental health",
+    accreditation: "Joint Commission",
+    loc: ["Inpatient", "Outpatient"],
+    services: ["CBT", "DBT", "EMDR", "Trauma Informed", "Family Therapy", "Group Therapy", "Marriage/Couples"],
+    source: "SAMHSA baseline"
+  },
+  {
+    id: 2,
+    name: "We Level Up",
+    address: "8290 N University Dr, Tamarac, FL 33321",
+    city: "Tamarac",
+    phone: "(954) 231-3849",
+    website: "https://welevelupfl.com",
+    diagnosis: "Dual Diagnosis",
+    treatments: ["Residential", "Residential Detox", "PHP", "IOP"],
+    insurances: [
+      {name: "Cigna", verified: false},
+      {name: "Private Insurance", verified: false},
+      {name: "Self-Pay", verified: false}
+    ],
+    focus: "Primary mental health, dual diagnosis, co-occurring disorders",
+    accreditation: "Licensed & Accredited",
+    loc: ["Inpatient"],
+    services: ["CBT", "DBT", "Trauma Informed", "Family Therapy", "Group Therapy"],
+    source: "SAMHSA + Psychology Today"
+  },
+  {
+    id: 3,
+    name: "Mastermind Care",
+    address: "441 S State Rd 7, Suite 15, Margate, FL 33068",
+    city: "Margate",
+    phone: "(954) 548-6303",
+    website: "https://mastermindcare.com",
+    diagnosis: "Dual Diagnosis",
+    treatments: ["PHP", "IOP", "OP", "Sober Living", "Aftercare"],
+    insurances: [
+      {name: "Cigna", verified: true},
+      {name: "Aetna", verified: false},
+      {name: "Ambetter", verified: false},
+      {name: "Magellan", verified: false},
+      {name: "Self-Pay", verified: false}
+    ],
+    focus: "Substance abuse, dual diagnosis, 12-step, Spanish-speaking track",
+    accreditation: "Joint Commission",
+    loc: ["Outpatient"],
+    services: ["CBT", "DBT", "EMDR", "Trauma Informed", "Family Therapy", "Group Therapy", "MAT"],
+    source: "Rehabs.org + Your intel"
+  },
+  {
+    id: 4,
+    name: "The Sylvia Brafman Mental Health Center",
+    address: "7710 NW 71st Ct, Tamarac, FL 33321",
+    city: "Tamarac",
+    phone: "(954) 287-0771",
+    website: "https://sylviabrafman.com",
+    diagnosis: "Dual Diagnosis",
+    treatments: ["PHP", "IOP", "OP", "Sober Living"],
+    insurances: [
+      {name: "Aetna", verified: false},
+      {name: "AmeriHealth", verified: false},
+      {name: "Carelon", verified: false},
+      {name: "BCBS", verified: false},
+      {name: "Cigna", verified: false},
+      {name: "Florida Blue", verified: false},
+      {name: "Halcyon", verified: false},
+      {name: "Magellan", verified: false},
+      {name: "Medica", verified: false},
+      {name: "NYSHIP", verified: false},
+      {name: "UnitedHealthcare", verified: false},
+      {name: "UMR", verified: false}
+    ],
+    focus: "Primary mental health, dual diagnosis, eating disorders",
+    accreditation: "Joint Commission",
+    noMedicaid: true,
+    loc: ["Inpatient", "Outpatient"],
+    services: ["TMS", "CBT", "DBT", "EMDR", "Trauma Informed", "Family Therapy", "Group Therapy", "Psych Evals"],
+    source: "Psychology Today + Website"
+  },
+  {
+    id: 5,
+    name: "Intecelle Behavioral Health Services",
+    address: "8333 W McNab Rd, Suite 110, Tamarac, FL 33321",
+    city: "Tamarac",
+    phone: "(954) 756-9709",
+    website: "https://intecelle.com",
+    diagnosis: "Dual Diagnosis",
+    treatments: ["Outpatient", "Day Programs", "Individual Therapy", "Psychiatric Evals", "Family/Group Therapy"],
+    insurances: [
+      {name: "Medicaid", verified: false},
+      {name: "Sunshine Health", verified: false},
+      {name: "Community Care Plan", verified: false}
+    ],
+    focus: "Mental health, substance abuse, ADHD, trauma — Children & Adults",
+    accreditation: "Joint Commission Gold Seal",
+    loc: ["Outpatient", "Case Management"],
+    services: ["CBT", "Play Therapy", "Family Therapy", "Group Therapy", "Psych Evals", "Trauma Informed"],
+    source: "Website"
+  },
+  {
+    id: 6,
+    name: "Agape Behavioral Healthcare",
+    address: "2400 E Commercial Blvd, Fort Lauderdale, FL 33308",
+    city: "Oakland Park",
+    phone: "(954) 289-6486",
+    website: "https://agapebhc.com",
+    diagnosis: "Dual Diagnosis",
+    treatments: ["Detox", "Residential", "PHP", "IOP", "OP", "MAT"],
+    insurances: [
+      {name: "Aetna", verified: false},
+      {name: "Ambetter", verified: false},
+      {name: "BCBS", verified: false},
+      {name: "Cigna", verified: false},
+      {name: "Florida Blue", verified: false},
+      {name: "Humana", verified: false},
+      {name: "UnitedHealthcare", verified: false},
+      {name: "TRICARE", verified: false}
+    ],
+    focus: "Substance abuse, co-occurring mental health, veterans/first responders, LGBTQ+",
+    accreditation: "Joint Commission, SAMHSA, FL DCF",
+    loc: ["Inpatient", "Outpatient"],
+    services: ["CBT", "DBT", "EMDR", "Trauma Informed", "Family Therapy", "Group Therapy", "MAT", "Psych Evals"],
+    source: "Psychology Today + Website"
+  },
+  {
+    id: 7,
+    name: "Broward House",
+    address: "920 NW 7th Ave, Fort Lauderdale, FL 33311",
+    city: "Fort Lauderdale",
+    phone: "(954) 522-4749",
+    website: "https://browardhouse.org",
+    diagnosis: "Dual Diagnosis",
+    treatments: ["Outpatient", "Residential", "SUD Treatment", "Behavioral Health Counseling", "Transitional Housing"],
+    insurances: [
+      {name: "Free / Grant-Funded", verified: false},
+      {name: "Medicaid", verified: false}
+    ],
+    focus: "HIV+ population, LGBTQ+, methamphetamine use disorder, co-occurring MH/SUD",
+    accreditation: "State Licensed",
+    acceptsUninsured: true,
+    loc: ["Inpatient", "Outpatient", "Case Management"],
+    services: ["CBT", "Trauma Informed", "Family Therapy", "Group Therapy", "MAT"],
+    source: "Website"
+  },
+  {
+    id: 8,
+    name: "Care Resource Community Health Centers",
+    address: "871 W Oakland Park Blvd, Fort Lauderdale, FL 33311",
+    city: "Fort Lauderdale",
+    phone: "(305) 576-1234",
+    website: "https://careresource.org",
+    diagnosis: "Dual Diagnosis",
+    treatments: ["Outpatient", "MAT", "Individual Therapy", "Group Therapy", "Family Therapy", "Psychiatric Services"],
+    insurances: [
+      {name: "Aetna", verified: false},
+      {name: "Ambetter", verified: false},
+      {name: "AmeriHealth", verified: false},
+      {name: "Cigna", verified: false},
+      {name: "Community Care Plan", verified: false},
+      {name: "Florida Blue", verified: false},
+      {name: "Humana", verified: false},
+      {name: "Medicaid", verified: false},
+      {name: "Medicare", verified: false},
+      {name: "Molina", verified: false},
+      {name: "Sunshine Health", verified: false},
+      {name: "UnitedHealthcare", verified: false}
+    ],
+    focus: "Behavioral health, substance abuse, HIV care, LGBTQ+ — FQHC, sliding fee scale",
+    accreditation: "FQHC, Joint Commission",
+    acceptsUninsured: true,
+    loc: ["Outpatient", "Case Management"],
+    services: ["CBT", "Trauma Informed", "Family Therapy", "Group Therapy", "MAT", "Marriage/Couples", "Psych Evals"],
+    source: "Website insurance page"
+  },
+  {
+    id: 9,
+    name: "Good Hope Manor",
+    address: "2251 NW 29th Ct, Oakland Park, FL 33311",
+    city: "Oakland Park",
+    phone: "(954) 677-2900",
+    website: "https://www.floridahealthfinder.gov/facilitylocator/FacilityProfilePage.aspx?id=2663",
+    diagnosis: "Assisted Living",
+    treatments: ["Assisted Living", "Residential"],
+    insurances: [
+      {name: "Private Pay", verified: false},
+      {name: "Medicaid", verified: false}
+    ],
+    focus: "Assisted living facility — licensed for up to 100 residents, 24/7 supervision, medication management",
+    accreditation: "FL AHCA Licensed (ALF)",
+    loc: ["Inpatient"],
+    services: [],
+    source: "FL Health Finder + NPI Registry"
+  },
+  {
+    id: 10,
+    name: "Amethyst Agency of Broward",
+    address: "4850 W Oakland Park Blvd, Suite 145, Lauderdale Lakes, FL 33313",
+    city: "Lauderdale Lakes",
+    phone: "(954) 933-3407",
+    website: "http://www.amethystagencyofbroward.com",
+    diagnosis: "Dual Diagnosis",
+    treatments: ["Psychosocial Rehabilitation", "Medication Management", "Psychiatric Evaluation", "Group Therapy", "Individual Therapy"],
+    insurances: [
+      {name: "Medicaid", verified: false}
+    ],
+    focus: "Community mental health agency — PSR for chronic/persistent mental illness, co-occurring substance abuse, life skills, coping mechanisms, referral services. Mon-Fri 9am-4pm.",
+    accreditation: "State Licensed",
+    acceptsUninsured: true,
+    loc: ["Outpatient", "Case Management"],
+    services: ["CBT", "Group Therapy", "Family Therapy", "Trauma Informed", "Psych Evals"],
+    source: "Website (amethystagencyofbroward.com)"
+  },
+  {
+    id: 11,
+    name: "The Healing Place",
+    address: "1780 NW 52nd Ave, Lauderhill, FL 33313",
+    city: "Lauderhill",
+    phone: "(877) 789-6707",
+    website: "https://thpdetox.com",
+    diagnosis: "Substance Use",
+    treatments: ["Detox", "Residential", "MAT", "Holistic Therapy", "Aftercare"],
+    insurances: [
+      {name: "⚠️ Verify — no public list", verified: false}
+    ],
+    focus: "Drug & alcohol detox, residential addiction treatment (30/60/90 day), holistic therapies (acupuncture, aromatherapy, massage, nutrition)",
+    accreditation: "Licensed",
+    loc: ["Inpatient"],
+    services: ["MAT"],
+    source: "Website + Recovery.com"
+  },
+  {
+    id: 12,
+    name: "Kimmel Psychology",
+    address: "5551 N University Dr, Suite 202, Coral Springs, FL 33067",
+    city: "Coral Springs",
+    phone: "(954) 755-2885",
+    website: "https://kimmelpsychology.com",
+    diagnosis: "Mental Health",
+    treatments: ["Individual Therapy", "Psych Evals", "Group Practice"],
+    insurances: [
+      {name: "Aetna", verified: false},
+      {name: "Cigna", verified: false},
+      {name: "Humana", verified: false},
+      {name: "Medicare", verified: false}
+    ],
+    focus: "Psychology practice since 1977 — individual therapy, psychological evaluations, phobia treatment, career coaching",
+    accreditation: "Licensed Psychologist (FL)",
+    loc: ["Outpatient"],
+    services: ["CBT", "Psych Evals", "Marriage/Couples", "Family Therapy"],
+    source: "Healthline + Psychology Today"
+  },
+  {
+    id: 13,
+    name: "PACE Center for Girls — Broward",
+    address: "2225 N Andrews Ave, Wilton Manors, FL 33311",
+    city: "Wilton Manors",
+    phone: "(954) 561-6939",
+    website: "https://pacecenter.org",
+    diagnosis: "Youth Services",
+    treatments: ["Counseling", "Education", "Life Skills", "Case Management"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "Non-residential prevention program for at-risk girls ages 11-18 — academics, counseling, social services",
+    accreditation: "State Licensed",
+    acceptsUninsured: true,
+    loc: ["Outpatient", "Case Management"],
+    services: ["Trauma Informed", "Group Therapy", "Family Therapy"],
+    source: "Business card + Website"
+  },
+  {
+    id: 14,
+    name: "Broward Behavioral",
+    address: "4121 NW 5th St, Suite 216, Plantation, FL 33317",
+    city: "Plantation",
+    phone: "(754) 779-0656",
+    website: "https://browardbehavioral.net",
+    diagnosis: "ABA Therapy",
+    treatments: ["ABA Therapy", "Behavioral Assessment", "Skills Training"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Applied Behavior Analysis for children with autism spectrum disorder",
+    accreditation: "Licensed",
+    loc: ["Outpatient"],
+    services: ["Play Therapy"],
+    source: "Business card + ABA Navigator"
+  },
+  {
+    id: 15,
+    name: "STAR Network",
+    address: "South Florida",
+    city: "South Florida",
+    phone: "(305) 303-4000",
+    website: "https://starnetwork.org",
+    diagnosis: "Nonprofit",
+    treatments: ["Advocacy", "Networking", "Community Support"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "501(c)(3) foundation — behavioral health advocacy, community networking, support services",
+    accreditation: "501(c)(3) Nonprofit",
+    acceptsUninsured: true,
+    loc: ["Case Management"],
+    services: [],
+    source: "Business card"
+  },
+  {
+    id: 16,
+    name: "Optimize Medical — Dr. Rohan Dang",
+    address: "9750 NW 33rd St, Suite 204, Coral Springs, FL 33065",
+    city: "Coral Springs",
+    phone: "(954) 780-8685",
+    website: "https://optimizemedicalfl.com",
+    diagnosis: "Primary Care",
+    treatments: ["Primary Care", "Medication Management", "Physical Exams", "Obesity Medicine"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Board Certified in Family Medicine & Obesity Medicine — medical clearances, medication management, coordination with behavioral health",
+    accreditation: "Board Certified (MD)",
+    loc: ["Outpatient"],
+    services: ["Psych Evals"],
+    source: "Business card"
+  },
+  {
+    id: 17,
+    name: "Plantation Psychiatry",
+    address: "Plantation, FL 33324",
+    city: "Plantation",
+    phone: "See website",
+    website: "https://plantationpsychiatrist.com",
+    diagnosis: "Mental Health",
+    treatments: ["Psychiatry", "Medication Management", "Individual Therapy", "Counseling"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Adult, adolescent & child psychiatry — depression, anxiety, PTSD, bipolar, ADHD, OCD, postpartum. Telehealth available statewide.",
+    accreditation: "Licensed Psychiatrist (FL)",
+    loc: ["Outpatient"],
+    services: ["CBT", "Psych Evals", "Family Therapy", "Marriage/Couples"],
+    source: "Website"
+  },
+  {
+    id: 18,
+    name: "Prestige Psychiatry",
+    address: "1999 N University Dr, Suite 400, Coral Springs, FL 33071",
+    city: "Coral Springs",
+    phone: "(954) 345-7474",
+    website: "https://prestigepsyc.com",
+    diagnosis: "Dual Diagnosis",
+    treatments: ["Psychiatry", "Medication Management", "Suboxone/MAT", "Individual Therapy"],
+    insurances: [
+      {name: "Aetna", verified: false},
+      {name: "Cigna", verified: false},
+      {name: "Humana", verified: false},
+      {name: "BCBS", verified: false}
+    ],
+    focus: "Psychiatry, substance abuse recovery, suboxone clinic, suicide prevention — Dr. Craig Crespi, DO",
+    accreditation: "Board Certified (DO), HCA Florida Woodmont",
+    loc: ["Outpatient"],
+    services: ["CBT", "MAT", "Psych Evals"],
+    source: "US News + Healthline"
+  },
+  {
+    id: 19,
+    name: "Smith Community Mental Health",
+    address: "601 S State Road 7, Plantation, FL 33317",
+    city: "Plantation",
+    phone: "(954) 321-2296",
+    website: "https://smithcmh.com",
+    diagnosis: "Dual Diagnosis",
+    treatments: ["Outpatient", "Day Treatment", "Case Management", "Psych Rehab"],
+    insurances: [
+      {name: "Medicaid", verified: false},
+      {name: "Community Care Plan", verified: false},
+      {name: "Sliding Fee Scale", verified: false}
+    ],
+    focus: "Community mental health — youth & families, dual diagnosis, trauma, violence prevention, weekend respite. Serves uninsured via county grants.",
+    accreditation: "CARF Accredited",
+    acceptsUninsured: true,
+    loc: ["Outpatient", "Case Management"],
+    services: ["CBT", "Trauma Informed", "Family Therapy", "Group Therapy", "Psych Evals", "Play Therapy"],
+    source: "Website + CARF + BBHC"
+  },
+  {
+    id: 20,
+    name: "The Gardens at Maplewood",
+    address: "1342 NW 104th Dr, Coral Springs, FL 33071",
+    city: "Coral Springs",
+    phone: "(954) 263-5775",
+    website: "",
+    diagnosis: "Assisted Living",
+    treatments: ["Assisted Living", "Memory Care", "Residential"],
+    insurances: [
+      {name: "Private Pay", verified: false},
+      {name: "Medicaid", verified: false}
+    ],
+    focus: "Small 6-bed ALF — 24hr RN-operated, dementia/memory care, home-cooked meals by licensed dietitian, medication assistance",
+    accreditation: "FL AHCA Licensed (ALF)",
+    loc: ["Inpatient"],
+    services: [],
+    source: "A Place for Mom + Seniorly"
+  },
+  {
+    id: 21,
+    name: "The Gardens at Hidden Hammock",
+    address: "5182 NW 58th Terrace, Coral Springs, FL 33067",
+    city: "Coral Springs",
+    phone: "(954) 263-5775",
+    website: "",
+    diagnosis: "Assisted Living",
+    treatments: ["Assisted Living", "Memory Care", "Residential"],
+    insurances: [
+      {name: "Private Pay", verified: false},
+      {name: "Medicaid", verified: false}
+    ],
+    focus: "Small 6-bed ALF — 24hr RN-operated, dementia/incontinence/diabetes care, home-cooked meals, visiting doctors & PT",
+    accreditation: "FL AHCA Licensed (ALF #10352)",
+    loc: ["Inpatient"],
+    services: [],
+    source: "SeniorSite + Caring.com"
+  },
+  {
+    id: 22,
+    name: "Covenant Living of Florida",
+    address: "9215 W Broward Blvd, Plantation, FL 33324",
+    city: "Plantation",
+    phone: "(754) 206-7200",
+    website: "https://covlivingflorida.org",
+    diagnosis: "Assisted Living",
+    treatments: ["Independent Living", "Assisted Living", "Memory Care", "Skilled Nursing", "Rehabilitation"],
+    insurances: [
+      {name: "Medicare", verified: false},
+      {name: "Medicaid", verified: false},
+      {name: "Private Pay", verified: false}
+    ],
+    focus: "20-acre CCRC campus — full continuum of care: independent living, ALF, memory care, skilled nursing, rehab. Nonprofit, est. 1886.",
+    accreditation: "FL AHCA Licensed, Medicare 4/5 stars",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Yelp + SeniorAdvice + Medicare"
+  },
+  {
+    id: 23,
+    name: "Margate Health and Rehabilitation Center",
+    address: "5600 Lakeside Dr, Margate, FL 33063",
+    city: "Margate",
+    phone: "(954) 975-7600",
+    website: "",
+    diagnosis: "Assisted Living",
+    treatments: ["Skilled Nursing", "Rehabilitation", "Residential"],
+    insurances: [
+      {name: "Medicare", verified: false},
+      {name: "Medicaid", verified: false}
+    ],
+    focus: "Skilled nursing & rehabilitation facility",
+    accreditation: "FL Licensed (SNF)",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 24,
+    name: "Oasis at Margate Assisted Living",
+    address: "1189 W River Dr, Margate, FL 33063",
+    city: "Margate",
+    phone: "(954) 972-0200",
+    website: "https://oasisatmargate.com",
+    diagnosis: "Assisted Living",
+    treatments: ["Assisted Living", "Memory Care", "Residential"],
+    insurances: [
+      {name: "Medicaid", verified: false},
+      {name: "Private Pay", verified: false}
+    ],
+    focus: "Lakeside ALF — large rooms with balconies, 24hr nursing, medication management, Medicaid/SSA application assistance, memory care",
+    accreditation: "FL AHCA Licensed (ALF)",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 25,
+    name: "Henderson Behavioral Health CSU/MRT",
+    address: "4740 N State Road 7, Bldg C #201, Fort Lauderdale, FL 33319",
+    city: "Fort Lauderdale",
+    phone: "(954) 486-4005",
+    website: "https://hendersonbh.org",
+    diagnosis: "Dual Diagnosis",
+    treatments: ["Crisis Stabilization", "Mobile Response", "Outpatient", "Case Management", "Residential"],
+    insurances: [
+      {name: "Medicaid", verified: false},
+      {name: "Medicare", verified: false},
+      {name: "Sliding Fee Scale", verified: false}
+    ],
+    focus: "Crisis stabilization unit, mobile response team, community mental health — serves 30,000+ annually in Broward County. Est. 1953.",
+    accreditation: "CARF, FL DCF",
+    acceptsUninsured: true,
+    loc: ["Inpatient", "Outpatient", "Case Management"],
+    services: ["CBT", "DBT", "Trauma Informed", "Family Therapy", "Group Therapy", "Psych Evals"],
+    source: "BBHC + NAMI Broward"
+  },
+  {
+    id: 26,
+    name: "Fellowship Recovery — Respite Care",
+    address: "Broward County, FL",
+    city: "Broward County",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Mental Health",
+    treatments: ["Respite Care", "Residential"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Respite care services for behavioral health recovery",
+    accreditation: "FL Licensed",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 27,
+    name: "The Motherhood Village",
+    address: "2902 N University Dr, Coral Springs, FL 33065",
+    city: "Coral Springs",
+    phone: "See website",
+    website: "https://themotherhoodvillage.com",
+    diagnosis: "Youth Services",
+    treatments: ["Family Wellness", "Parenting Classes", "Mental Health Screenings", "Support Groups"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "Family wellness center — prenatal through age 12, parenting workshops, free mental health screenings, family therapists on-site, co-working space",
+    accreditation: "Community Hub",
+    acceptsUninsured: true,
+    loc: ["Outpatient"],
+    services: ["Family Therapy", "Group Therapy"],
+    source: "Website + NBC 6"
+  },
+  {
+    id: 28,
+    name: "Primary Purpose Sober House",
+    address: "Broward County, FL",
+    city: "Broward County",
+    phone: "See website",
+    website: "https://primarypurpose.us",
+    diagnosis: "Substance Use",
+    treatments: ["Sober Living", "12-Step Program"],
+    insurances: [
+      {name: "Self-Pay", verified: false}
+    ],
+    focus: "Structured sober living for men & women — 12-step based, referrals to detox & rehab, Broward County",
+    accreditation: "FARR Certified",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Website"
+  },
+  {
+    id: 29,
+    name: "Plantation Nursing & Rehabilitation",
+    address: "Plantation, FL",
+    city: "Plantation",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Assisted Living",
+    treatments: ["Skilled Nursing", "Rehabilitation", "Residential"],
+    insurances: [
+      {name: "Medicare", verified: false},
+      {name: "Medicaid", verified: false}
+    ],
+    focus: "Skilled nursing & rehabilitation facility",
+    accreditation: "FL Licensed (SNF)",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 30,
+    name: "Sawgrass Pediatrics",
+    address: "9750 NW 33rd St, Suite 101, Coral Springs, FL 33065",
+    city: "Coral Springs",
+    phone: "(954) 752-9220",
+    website: "https://www.toplinemd.com/sawgrass-pediatrics",
+    diagnosis: "Primary Care",
+    treatments: ["Pediatric Care", "Well-Child Visits", "Immunizations", "ADHD Screening", "On-site LMHC"],
+    insurances: [
+      {name: "Aetna", verified: false},
+      {name: "BCBS", verified: false},
+      {name: "Amerigroup", verified: false}
+    ],
+    focus: "Pediatric group practice (8+ MDs/DOs + APRNs) — birth to 18, well-child visits, ADHD Vanderbilt screening, on-site licensed mental health counselor (Blanca Aponte-Garcia, LMHC). Also in Boca Raton & Parkland.",
+    accreditation: "Board Certified Pediatrics, TopLine MD Alliance",
+    loc: ["Outpatient"],
+    services: ["Psych Evals"],
+    source: "Spreadsheet"
+  },
+  {
+    id: 31,
+    name: "Harbor Chase — Coral Springs",
+    address: "Coral Springs, FL",
+    city: "Coral Springs",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Assisted Living",
+    treatments: ["Assisted Living", "Memory Care", "Residential"],
+    insurances: [
+      {name: "Private Pay", verified: false}
+    ],
+    focus: "Senior living — assisted living & memory care community",
+    accreditation: "FL Licensed (ALF)",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 32,
+    name: "Genesis Counseling and Consulting",
+    address: "3000 NW 101st Ln, Suite 202, Coral Springs, FL 33065",
+    city: "Coral Springs",
+    phone: "(561) 408-1098",
+    website: "https://genesiscounselingflorida.com",
+    diagnosis: "Mental Health",
+    treatments: ["Individual Therapy", "Family Therapy", "Play Therapy", "Psychiatry"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Group practice — children, adolescents, adults, couples. Specialties: anxiety, depression, trauma, divorce/blended families, EMDR, play therapy. Also offers psychiatry/medication management.",
+    accreditation: "Licensed (LMHC)",
+    loc: ["Outpatient"],
+    services: ["CBT", "DBT", "EMDR", "Trauma Informed", "Play Therapy", "Family Therapy", "Marriage/Couples", "Psych Evals"],
+    source: "Spreadsheet"
+  },
+  {
+    id: 33,
+    name: "Sunrise Sober Living",
+    address: "Sunrise, FL",
+    city: "Sunrise",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Substance Use",
+    treatments: ["Sober Living"],
+    insurances: [
+      {name: "Self-Pay", verified: false}
+    ],
+    focus: "Structured sober living residence",
+    accreditation: "FARR Certified",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 34,
+    name: "Sunrise Health and Rehab",
+    address: "Sunrise, FL",
+    city: "Sunrise",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Assisted Living",
+    treatments: ["Skilled Nursing", "Rehabilitation", "Residential"],
+    insurances: [
+      {name: "Medicare", verified: false},
+      {name: "Medicaid", verified: false}
+    ],
+    focus: "Skilled nursing & rehabilitation facility",
+    accreditation: "FL Licensed (SNF)",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 35,
+    name: "Sunshine Assisted Living",
+    address: "Broward County, FL",
+    city: "Broward County",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Assisted Living",
+    treatments: ["Assisted Living", "Residential"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Senior assisted living residence",
+    accreditation: "FL Licensed (ALF)",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 36,
+    name: "Unique Assisted Living — Coral Springs",
+    address: "Coral Springs, FL",
+    city: "Coral Springs",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Assisted Living",
+    treatments: ["Assisted Living", "Residential"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Senior assisted living residence",
+    accreditation: "FL Licensed (ALF)",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 37,
+    name: "Senior Care Coral Springs",
+    address: "Coral Springs, FL",
+    city: "Coral Springs",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Assisted Living",
+    treatments: ["Assisted Living", "Residential"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Senior care services",
+    accreditation: "FL Licensed",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 38,
+    name: "Family Success Center",
+    address: "Broward County, FL",
+    city: "Broward County",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Nonprofit",
+    treatments: ["Family Support", "Case Management", "Community Resources"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "Family support services — community resources, case management, parenting support",
+    accreditation: "Community Organization",
+    acceptsUninsured: true,
+    loc: ["Case Management"],
+    services: ["Family Therapy"],
+    source: "Spreadsheet"
+  },
+  {
+    id: 39,
+    name: "Legal Aid of Broward County",
+    address: "491 N State Road 7, Plantation, FL 33317",
+    city: "Plantation",
+    phone: "(954) 765-8950",
+    website: "https://browardlegalaid.org",
+    diagnosis: "Nonprofit",
+    treatments: ["Legal Assistance", "Advocacy"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "Free legal services for low-income residents — housing, family law, public benefits, disability rights",
+    accreditation: "501(c)(3) Nonprofit",
+    acceptsUninsured: true,
+    loc: ["Case Management"],
+    services: [],
+    source: "NAMI Broward + Spreadsheet"
+  },
+  {
+    id: 40,
+    name: "Florida Medical Center",
+    address: "5000 W Oakland Park Blvd, Fort Lauderdale, FL 33313",
+    city: "Fort Lauderdale",
+    phone: "(954) 735-6000",
+    website: "",
+    diagnosis: "Dual Diagnosis",
+    treatments: ["Baker Act Receiving", "Inpatient Psychiatric", "Emergency Services"],
+    insurances: [
+      {name: "Medicare", verified: false},
+      {name: "Medicaid", verified: false}
+    ],
+    focus: "Baker Act receiving facility — inpatient psychiatric emergency services, crisis stabilization",
+    accreditation: "Hospital (AHCA Licensed)",
+    loc: ["Inpatient"],
+    services: ["Psych Evals"],
+    source: "NAMI Broward + Spreadsheet"
+  },
+  {
+    id: 41,
+    name: "Broward Healthy Start Coalition",
+    address: "6301 NW 5th Way #5000, Fort Lauderdale, FL 33309",
+    city: "Fort Lauderdale",
+    phone: "(954) 563-7583",
+    website: "https://browardhsc.org",
+    diagnosis: "Nonprofit",
+    treatments: ["Prenatal Care Coordination", "Parenting Education", "Home Visits"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "Maternal and child health — prenatal/postnatal support, parenting education, home visiting programs, reducing infant mortality",
+    accreditation: "FL DOH Funded",
+    acceptsUninsured: true,
+    loc: ["Case Management"],
+    services: ["Family Therapy"],
+    source: "Spreadsheet"
+  },
+  {
+    id: 42,
+    name: "Atlantic Technical College",
+    address: "Broward County, FL",
+    city: "Broward County",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Nonprofit",
+    treatments: ["Vocational Training", "Education", "Job Placement"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "Vocational/technical education — job training, career development for behavioral health clients transitioning to workforce",
+    accreditation: "Broward County Public Schools",
+    acceptsUninsured: true,
+    loc: ["Case Management"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 43,
+    name: "Ideal Health & Rehab",
+    address: "Broward County, FL",
+    city: "Broward County",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Assisted Living",
+    treatments: ["Skilled Nursing", "Rehabilitation", "Residential"],
+    insurances: [
+      {name: "Medicare", verified: false},
+      {name: "Medicaid", verified: false}
+    ],
+    focus: "Skilled nursing & rehabilitation facility",
+    accreditation: "FL Licensed (SNF)",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 44,
+    name: "West Broward Rehab",
+    address: "Broward County, FL",
+    city: "Broward County",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Assisted Living",
+    treatments: ["Skilled Nursing", "Rehabilitation", "Residential"],
+    insurances: [
+      {name: "Medicare", verified: false},
+      {name: "Medicaid", verified: false}
+    ],
+    focus: "Skilled nursing & rehabilitation facility",
+    accreditation: "FL Licensed (SNF)",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 45,
+    name: "Embassy Retirement Home",
+    address: "Broward County, FL",
+    city: "Broward County",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Assisted Living",
+    treatments: ["Assisted Living", "Residential"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Senior retirement community",
+    accreditation: "FL Licensed (ALF)",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 46,
+    name: "Allegro Senior Living — Parkland",
+    address: "Parkland, FL",
+    city: "Parkland",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Assisted Living",
+    treatments: ["Assisted Living", "Memory Care", "Residential"],
+    insurances: [
+      {name: "Private Pay", verified: false}
+    ],
+    focus: "Senior living — assisted living & memory care community",
+    accreditation: "FL Licensed (ALF)",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 47,
+    name: "Ashton Commons — Parkland",
+    address: "Parkland, FL",
+    city: "Parkland",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Assisted Living",
+    treatments: ["Assisted Living", "Residential"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Senior assisted living community",
+    accreditation: "FL Licensed (ALF)",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 48,
+    name: "Park Summit",
+    address: "Broward County, FL",
+    city: "Broward County",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Assisted Living",
+    treatments: ["Assisted Living", "Residential"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Senior living community",
+    accreditation: "FL Licensed (ALF)",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 49,
+    name: "Holistic Health Center — Coral Springs",
+    address: "Coral Springs, FL",
+    city: "Coral Springs",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Mental Health",
+    treatments: ["Holistic Therapy", "Wellness", "Counseling"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Holistic health and wellness center — integrative approaches to mental health",
+    accreditation: "Licensed",
+    loc: ["Outpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 50,
+    name: "Coral Springs Police — CIT / Crisis Resources",
+    address: "Coral Springs, FL",
+    city: "Coral Springs",
+    phone: "Non-emergency: (954) 346-1201",
+    website: "",
+    diagnosis: "Nonprofit",
+    treatments: ["Crisis Intervention", "CIT Officers", "Baker Act Transport"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "Crisis Intervention Team (CIT) trained officers — Baker Act transport, mental health crisis response, community resource referrals",
+    accreditation: "Law Enforcement",
+    acceptsUninsured: true,
+    loc: ["Case Management"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 51,
+    name: "Community Rightful Center — Coral Springs",
+    address: "Coral Springs, FL",
+    city: "Coral Springs",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Nonprofit",
+    treatments: ["Community Support", "Case Management"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "Community support services",
+    accreditation: "Community Organization",
+    acceptsUninsured: true,
+    loc: ["Case Management"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 52,
+    name: "Dr. Ajit M. Singh, MD",
+    address: "Broward County, FL",
+    city: "Broward County",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Primary Care",
+    treatments: ["Primary Care", "Medication Management"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Primary care physician",
+    accreditation: "Board Certified (MD)",
+    loc: ["Outpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 53,
+    name: "YourLife of Coconut Creek",
+    address: "Coconut Creek, FL",
+    city: "Coconut Creek",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Assisted Living",
+    treatments: ["Assisted Living", "Memory Care", "Residential"],
+    insurances: [
+      {name: "Private Pay", verified: false}
+    ],
+    focus: "Senior living — assisted living & memory care",
+    accreditation: "FL Licensed (ALF)",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 54,
+    name: "Invictus Medical & Wellness Group",
+    address: "Broward County, FL",
+    city: "Broward County",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Primary Care",
+    treatments: ["Primary Care", "Wellness", "Medication Management"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Medical and wellness group — primary care, integrative health",
+    accreditation: "Licensed",
+    loc: ["Outpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 55,
+    name: "Coral Springs — Parkland Fire Rescue",
+    address: "Coral Springs, FL",
+    city: "Coral Springs",
+    phone: "Emergency: 911",
+    website: "",
+    diagnosis: "Nonprofit",
+    treatments: ["Emergency Response", "Crisis Intervention", "Community Paramedicine"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "Fire rescue — emergency medical response, crisis intervention, community paramedicine programs",
+    accreditation: "Municipal Fire Rescue",
+    acceptsUninsured: true,
+    loc: ["Case Management"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 56,
+    name: "Coral Plaza by RSR ALF",
+    address: "Broward County, FL",
+    city: "Broward County",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Assisted Living",
+    treatments: ["Assisted Living", "Residential"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Senior assisted living residence",
+    accreditation: "FL Licensed (ALF)",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Spreadsheet"
+  },
+  {
+    id: 57,
+    name: "Regional Management Care",
+    address: "Broward County, FL",
+    city: "Broward County",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Mental Health",
+    treatments: ["Case Management", "Care Coordination"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Behavioral health care management and coordination services",
+    accreditation: "Licensed",
+    loc: ["Case Management"],
+    services: [],
+    source: "Spreadsheet"
+  }
+];
+
+let activeDiagnosis = 'all';
+let activeInsurance = 'all';
+let activeLOC = 'all';
+let activeService = 'all';
+
+// Build insurance filter chips
+function buildInsuranceFilters() {
+  const allIns = new Set();
+  const exclude = ['Self-Pay','Most Private Insurance','Private Insurance','⚠️ Verify — no public list','⚠️ Verify — call office','Call to Verify','Free / Grant-Funded','Private Pay','Most Major Insurance','No Insurance Needed','Sliding Fee Scale'];
+  facilities.forEach(f => f.insurances.forEach(i => {
+    if (!exclude.includes(i.name)) {
+      allIns.add(i.name);
+    }
+  }));
+  const sorted = [...allIns].sort();
+  const container = document.getElementById('insuranceFilters');
+  let html = '<button class="filter-chip active" data-filter="all" onclick="setInsurance(\'all\',this)">All</button>';
+  html += '<button class="filter-chip" data-filter="uninsured" onclick="setInsurance(\'uninsured\',this)" style="border-color:#C4783C;color:#C4783C">🆓 Uninsured</button>';
+  sorted.forEach(ins => {
+    html += `<button class="filter-chip" data-filter="${ins}" onclick="setInsurance('${ins.replace(/'/g,"\\'")}',this)">${ins}</button>`;
+  });
+  container.innerHTML = html;
+}
+
+function setDiagnosis(val, el) {
+  activeDiagnosis = val;
+  document.querySelectorAll('#diagnosisFilters .filter-chip').forEach(c => {
+    c.classList.remove('active','active-mh','active-su','active-dual','active-alf','active-pc','active-aba','active-youth','active-np');
+  });
+  if (val === 'Mental Health') el.classList.add('active-mh');
+  else if (val === 'Substance Use') el.classList.add('active-su');
+  else if (val === 'Dual Diagnosis') el.classList.add('active-dual');
+  else if (val === 'Assisted Living') el.classList.add('active-alf');
+  else if (val === 'Primary Care') el.classList.add('active-pc');
+  else if (val === 'ABA Therapy') el.classList.add('active-aba');
+  else if (val === 'Youth Services') el.classList.add('active-youth');
+  else if (val === 'Nonprofit') el.classList.add('active-np');
+  else el.classList.add('active');
+  render();
+}
+
+function setInsurance(val, el) {
+  activeInsurance = val;
+  document.querySelectorAll('#insuranceFilters .filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+function setLOC(val, el) {
+  activeLOC = val;
+  document.querySelectorAll('#locFilters .filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  // Show services filter only when Outpatient is selected
+  const svcSection = document.getElementById('servicesSection');
+  if (val === 'Outpatient') {
+    svcSection.style.display = '';
+  } else {
+    svcSection.style.display = 'none';
+    activeService = 'all';
+    document.querySelectorAll('#servicesFilters .filter-chip').forEach(c => c.classList.remove('active'));
+    document.querySelector('#servicesFilters .filter-chip[data-filter="all"]').classList.add('active');
+  }
+  render();
+}
+
+function setService(val, el) {
+  activeService = val;
+  document.querySelectorAll('#servicesFilters .filter-chip').forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchClear').classList.remove('visible');
+  render();
+}
+
+document.getElementById('searchInput').addEventListener('input', function() {
+  document.getElementById('searchClear').classList.toggle('visible', this.value.length > 0);
+  render();
+});
+
+function getFiltered() {
+  const q = document.getElementById('searchInput').value.toLowerCase().trim();
+  return facilities.filter(f => {
+    // Diagnosis filter
+    if (activeDiagnosis !== 'all' && f.diagnosis !== activeDiagnosis) return false;
+    // Insurance filter
+    if (activeInsurance === 'uninsured') {
+      if (!f.acceptsUninsured) return false;
+    } else if (activeInsurance !== 'all') {
+      const hasIns = f.insurances.some(i => i.name === activeInsurance);
+      if (!hasIns) return false;
+    }
+    // Level of Care filter
+    if (activeLOC !== 'all') {
+      if (!f.loc || !f.loc.includes(activeLOC)) return false;
+    }
+    // Outpatient Services filter
+    if (activeService !== 'all') {
+      if (!f.services || !f.services.includes(activeService)) return false;
+    }
+    // Search
+    if (q) {
+      const haystack = [
+        f.name, f.address, f.city, f.phone, f.focus, f.diagnosis,
+        ...f.treatments,
+        ...f.insurances.map(i => i.name),
+        ...(f.loc || []),
+        ...(f.services || [])
+      ].join(' ').toLowerCase();
+      return haystack.includes(q);
+    }
+    return true;
+  });
+}
+
+function diagClass(d) {
+  if (d === 'Mental Health') return 'diag-mh';
+  if (d === 'Substance Use') return 'diag-su';
+  if (d === 'Assisted Living') return 'diag-alf';
+  if (d === 'Primary Care') return 'diag-pc';
+  if (d === 'ABA Therapy') return 'diag-aba';
+  if (d === 'Youth Services') return 'diag-youth';
+  if (d === 'Nonprofit') return 'diag-np';
+  return 'diag-dual';
+}
+
+function diagLabel(d) {
+  if (d === 'Dual Diagnosis') return 'Dual Dx';
+  if (d === 'Assisted Living') return 'ALF';
+  if (d === 'Primary Care') return 'PCP';
+  if (d === 'ABA Therapy') return 'ABA';
+  if (d === 'Youth Services') return 'Youth';
+  if (d === 'Nonprofit') return 'Free';
+  return d;
+}
+
+function renderCard(f) {
+  const insHtml = f.insurances.map(i =>
+    `<span class="ins-tag${i.verified ? '' : ' unverified'}">${i.name}${i.verified ? '<span class="verified-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg></span>' : ''}</span>`
+  ).join('');
+
+  const uninsuredBadge = f.acceptsUninsured ? '<span style="display:inline-block;font-size:0.65rem;font-weight:600;padding:3px 8px;border-radius:4px;background:#FFF3E8;color:#C4783C;border:1px solid #E8C9A8;margin-left:4px">Accepts Uninsured</span>' : '';
+
+  return `
+    <div class="card" onclick="openModal(${f.id})">
+      <div class="card-header">
+        <div class="card-name">${f.name}</div>
+        <span class="card-diagnosis ${diagClass(f.diagnosis)}">${diagLabel(f.diagnosis)}</span>
+      </div>
+      <div class="card-location">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        ${f.city}, FL ${uninsuredBadge}
+      </div>
+      <div class="card-treatments">
+        ${f.treatments.map(t => `<span class="treat-tag">${t}</span>`).join('')}
+      </div>
+      <div class="card-insurances">
+        <div class="ins-label">Insurances</div>
+        <div class="ins-tags">${insHtml}</div>
+      </div>
+      <div class="card-actions">
+        <a class="card-btn btn-call" href="tel:${f.phone.replace(/[^0-9+]/g,'')}" onclick="event.stopPropagation()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          Call
+        </a>
+        <a class="card-btn btn-web" href="${f.website}" target="_blank" rel="noopener" onclick="event.stopPropagation()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          Website
+        </a>
+      </div>
+    </div>
+  `;
+}
+
+function render() {
+  const filtered = getFiltered();
+  const container = document.getElementById('cardContainer');
+  const count = document.getElementById('resultsCount');
+
+  if (filtered.length === 0) {
+    container.innerHTML = `
+      <div class="empty">
+        <div class="empty-icon">🔍</div>
+        <div class="empty-text">No facilities match your filters.<br>Try adjusting your search or filters.</div>
+      </div>`;
+    count.textContent = '0 results';
+  } else {
+    container.innerHTML = filtered.map(renderCard).join('');
+    count.textContent = `${filtered.length} facilit${filtered.length === 1 ? 'y' : 'ies'}`;
+  }
+}
+
+function openModal(id) {
+  const f = facilities.find(x => x.id === id);
+  if (!f) return;
+
+  const insHtml = f.insurances.map(i =>
+    `<span class="ins-tag${i.verified ? '' : ' unverified'}" style="font-size:0.78rem;padding:5px 10px">${i.name}${i.verified ? '<span class="verified-badge"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg> You</span>' : ''}</span>`
+  ).join('');
+
+  document.getElementById('modalContent').innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px">
+      <div class="modal-name">${f.name}</div>
+      <span class="card-diagnosis ${diagClass(f.diagnosis)}" style="margin-top:4px">${diagLabel(f.diagnosis)}</span>
+    </div>
+    <div class="modal-addr">${f.address}</div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">Focus</div>
+      <div style="font-size:0.88rem;line-height:1.5;color:var(--text)">${f.focus}</div>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">Treatment Types</div>
+      <div class="modal-tags">${f.treatments.map(t => `<span class="treat-tag" style="font-size:0.78rem;padding:5px 10px">${t}</span>`).join('')}</div>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">Insurances Accepted${f.noMedicaid ? ' <span style="color:#B5541A;font-weight:400;text-transform:none;letter-spacing:0">— No Medicaid/Medicare</span>' : ''}</div>
+      <div class="modal-tags">${insHtml}</div>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">Accreditation</div>
+      <div style="font-size:0.85rem">${f.accreditation || 'Not listed'}</div>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">Data Source</div>
+      <div style="font-size:0.8rem;color:var(--text-secondary)">${f.source}</div>
+    </div>
+
+    <div class="modal-actions">
+      <a class="modal-action-btn modal-btn-call" href="tel:${f.phone.replace(/[^0-9+]/g,'')}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Call ${f.phone}
+      </a>
+    </div>
+    <div style="margin-top:8px">
+      <a class="modal-action-btn modal-btn-web" href="${f.website}" target="_blank" rel="noopener" style="width:100%">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        Visit Website
+      </a>
+    </div>
+  `;
+
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay') || e.target.closest('.modal-handle')) {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+// Swipe down to close modal
+let touchStartY = 0;
+document.querySelector('.modal').addEventListener('touchstart', e => {
+  touchStartY = e.touches[0].clientY;
+});
+document.querySelector('.modal').addEventListener('touchmove', e => {
+  const diff = e.touches[0].clientY - touchStartY;
+  if (diff > 80) {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+
+// Init
+buildInsuranceFilters();
+render();
+</script>
+</body>
+</html>
