@@ -353,6 +353,51 @@ body{
 }
 .verified-badge svg{width:11px;height:11px}
 
+/* Point of Contact */
+.poc-wrap{
+  margin-top:16px;
+  background:#F1F3F4;
+  border-radius:var(--radius);
+  padding:10px 14px;
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.poc-label{
+  font-size:0.65rem;
+  font-weight:500;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+  color:var(--text-secondary);
+  margin-bottom:2px;
+}
+.poc-value{
+  font-size:0.88rem;
+  font-weight:500;
+  color:var(--text);
+}
+.poc-copy{
+  flex-shrink:0;
+  width:36px;height:36px;
+  border:none;
+  background:var(--accent-light);
+  color:var(--accent);
+  border-radius:50%;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  -webkit-tap-highlight-color:transparent;
+  transition:background .15s;
+}
+.poc-copy:active{background:#D2E3FC}
+.poc-copy svg{width:16px;height:16px}
+.poc-copied{
+  font-size:0.7rem;
+  color:var(--accent);
+  font-weight:500;
+  opacity:0;
+  transition:opacity .2s;
+  margin-left:4px;
+}
+.poc-copied.show{opacity:1}
+
 /* Empty State */
 .empty{
   text-align:center;padding:60px 20px;
@@ -418,6 +463,128 @@ body{
 /* Prevent text selection on interactive elements */
 .filter-chip,.card-btn,.modal-action-btn{-webkit-user-select:none;user-select:none}
 
+/* Scan Card Button */
+.scan-btn{
+  flex-shrink:0;
+  width:36px;height:36px;
+  border:none;
+  background:#E8F0FE;
+  color:#1A73E8;
+  border-radius:50%;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  -webkit-tap-highlight-color:transparent;
+  margin-right:-4px;
+}
+.scan-btn:active{background:#D2E3FC}
+.scan-btn svg{stroke:#1A73E8}
+
+/* Scan Overlay */
+.scan-overlay{
+  position:fixed;top:0;left:0;right:0;bottom:0;
+  background:#fff;
+  z-index:2000;
+  display:none;
+  flex-direction:column;
+}
+.scan-overlay.open{display:flex}
+.scan-header{
+  display:flex;align-items:center;gap:12px;
+  padding:max(env(safe-area-inset-top),12px) 16px 12px;
+  background:#1A73E8;
+}
+.scan-close{
+  width:36px;height:36px;
+  border:none;background:rgba(255,255,255,0.15);
+  border-radius:50%;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+}
+.scan-title{color:#fff;font-size:1rem;font-weight:500}
+.scan-body{
+  flex:1;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  padding:24px;overflow-y:auto;
+}
+.scan-prompt{text-align:center;max-width:320px}
+.scan-icon-wrap{margin-bottom:16px}
+.scan-prompt-text{font-size:0.85rem;color:var(--text-secondary);line-height:1.5;margin-bottom:24px}
+.scan-capture-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  background:#1A73E8;color:#fff;
+  padding:14px 28px;border-radius:var(--radius-pill);
+  font-size:0.9rem;font-weight:500;
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.scan-capture-btn:active{background:#1557B0}
+
+/* Processing */
+.scan-processing{text-align:center}
+.scan-spinner{
+  width:40px;height:40px;
+  border:3px solid #E8F0FE;
+  border-top-color:#1A73E8;
+  border-radius:50%;
+  animation:spin 0.8s linear infinite;
+  margin:0 auto 16px;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.scan-status{font-size:0.9rem;font-weight:500;color:var(--text);margin:0 0 4px}
+.scan-substatus{font-size:0.75rem;color:var(--text-secondary);margin:0}
+
+/* Review */
+.scan-review{width:100%;max-width:400px}
+.scan-review-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:12px;
+}
+.scan-ai-badge{
+  font-size:0.65rem;font-weight:600;
+  padding:3px 8px;border-radius:4px;
+  background:#E8F0FE;color:#1A73E8;
+}
+.scan-field{margin-bottom:10px}
+.scan-field-label{
+  font-size:0.65rem;font-weight:500;
+  text-transform:uppercase;letter-spacing:0.05em;
+  color:var(--text-secondary);margin-bottom:2px;
+}
+.scan-field-value{
+  font-size:0.85rem;color:var(--text);
+  background:#F8F9FA;border-radius:6px;
+  padding:8px 10px;
+}
+.scan-field-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:4px}
+.scan-field-tag{
+  font-size:0.7rem;padding:3px 8px;
+  border-radius:12px;
+  background:#F1F3F4;color:var(--text-secondary);
+}
+.scan-field-tag.verified{background:#E8F0FE;color:#1A73E8}
+.scan-review-actions{
+  display:flex;gap:10px;margin-top:16px;
+}
+.scan-btn-cancel{
+  flex:1;padding:12px;border-radius:var(--radius-pill);
+  border:1px solid #DDD;background:#fff;
+  font-size:0.85rem;font-weight:500;color:var(--text);cursor:pointer;
+}
+.scan-btn-add{
+  flex:2;padding:12px;border-radius:var(--radius-pill);
+  border:none;background:#1A73E8;
+  font-size:0.85rem;font-weight:500;color:#fff;cursor:pointer;
+}
+.scan-btn-add:active{background:#1557B0}
+
+/* Error */
+.scan-error{text-align:center}
+.scan-error-msg{font-size:0.85rem;color:var(--text-secondary);margin-bottom:16px}
+.scan-btn-retry{
+  padding:10px 24px;border-radius:var(--radius-pill);
+  border:1px solid #DDD;background:#fff;
+  font-size:0.85rem;font-weight:500;color:var(--text);cursor:pointer;
+}
+
 /* Smooth scrolling on iOS */
 html{-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
 </style>
@@ -433,6 +600,9 @@ html{-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
   <div class="search-bar">
     <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35"/></svg>
     <input class="search-input" id="searchInput" type="text" placeholder="Search facilities, insurances, cities…" autocomplete="off" autocorrect="off" spellcheck="false">
+    <button class="scan-btn" id="scanBtn" onclick="openScanner()" aria-label="Scan business card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v4M17 2v4M7 18v4M17 18v4M2 7h4M2 17h4M18 7h4M18 17h4"/></svg>
+    </button>
     <button class="search-clear" id="searchClear" onclick="clearSearch()">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
     </button>
@@ -499,6 +669,51 @@ html{-webkit-overflow-scrolling:touch;scroll-behavior:smooth}
   </div>
 </div>
 
+<!-- Scan Card Overlay -->
+<div class="scan-overlay" id="scanOverlay">
+  <div class="scan-header">
+    <button class="scan-close" onclick="closeScanner()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" width="24" height="24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <span class="scan-title">Scan Business Card</span>
+  </div>
+  <div class="scan-body" id="scanBody">
+    <div class="scan-prompt" id="scanPrompt">
+      <div class="scan-icon-wrap">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#1A73E8" stroke-width="1.5" width="48" height="48"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M7 2v4M17 2v4M7 18v4M17 18v4M2 7h4M2 17h4M18 7h4M18 17h4"/></svg>
+      </div>
+      <p class="scan-prompt-text">Take a photo of a business card and Claude will research the facility, find insurance info, and add it to your database.</p>
+      <label class="scan-capture-btn" for="cardPhoto">
+        <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="18" height="18"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        Take Photo
+      </label>
+      <input type="file" id="cardPhoto" accept="image/*" capture="environment" style="display:none" onchange="handleCardPhoto(event)">
+      <p style="font-size:0.7rem;color:var(--text-secondary);margin-top:8px;text-align:center">Or tap to choose from gallery</p>
+    </div>
+    <div class="scan-processing" id="scanProcessing" style="display:none">
+      <div class="scan-spinner"></div>
+      <p class="scan-status" id="scanStatus">Reading business card...</p>
+      <p class="scan-substatus" id="scanSubstatus">This may take 15-30 seconds</p>
+    </div>
+    <div class="scan-review" id="scanReview" style="display:none">
+      <div class="scan-review-header">
+        <span style="font-size:0.9rem;font-weight:600">Review & Confirm</span>
+        <span class="scan-ai-badge">AI Generated</span>
+      </div>
+      <div id="scanReviewContent"></div>
+      <div class="scan-review-actions">
+        <button class="scan-btn-cancel" onclick="closeScanner()">Cancel</button>
+        <button class="scan-btn-add" onclick="confirmScan()">Add to Database</button>
+      </div>
+    </div>
+    <div class="scan-error" id="scanError" style="display:none">
+      <p style="font-size:1.2rem;margin-bottom:8px">⚠️</p>
+      <p class="scan-error-msg" id="scanErrorMsg">Something went wrong</p>
+      <button class="scan-btn-retry" onclick="resetScanner()">Try Again</button>
+    </div>
+  </div>
+</div>
+
 <script>
 const facilities = [
   {
@@ -511,9 +726,13 @@ const facilities = [
     diagnosis: "Dual Diagnosis",
     treatments: ["Detox", "Residential", "PHP", "IOP", "Sober Living"],
     insurances: [
-      {name: "⚠️ Verify — no public list", verified: false}
+      {name: "Aetna", verified: false},
+      {name: "BCBS", verified: false},
+      {name: "Cigna", verified: false},
+      {name: "Humana", verified: false},
+      {name: "UHC", verified: false}
     ],
-    focus: "Substance abuse, dual diagnosis, mental health",
+    focus: "Dual diagnosis addiction treatment since 2006 — detox, residential, PHP, IOP, sober living. Mental health, gender-specific, family program. Joint Commission accredited.",
     accreditation: "Joint Commission",
     loc: ["Inpatient", "Outpatient"],
     services: ["CBT", "DBT", "EMDR", "Trauma Informed", "Family Therapy", "Group Therapy", "Marriage/Couples"],
@@ -537,17 +756,18 @@ const facilities = [
     accreditation: "Licensed & Accredited",
     loc: ["Inpatient"],
     services: ["CBT", "DBT", "Trauma Informed", "Family Therapy", "Group Therapy"],
-    source: "SAMHSA + Psychology Today"
+    source: "SAMHSA + Psychology Today",
+    contact: "Alexander — (609) 922-3775"
   },
   {
     id: 3,
     name: "Mastermind Care",
-    address: "441 S State Rd 7, Suite 15, Margate, FL 33068",
+    address: "541 S State Road 7, Suite 7, Margate, FL 33068",
     city: "Margate",
-    phone: "(954) 548-6303",
+    phone: "(877) 357-3422",
     website: "https://mastermindcare.com",
     diagnosis: "Dual Diagnosis",
-    treatments: ["PHP", "IOP", "OP", "Sober Living", "Aftercare"],
+    treatments: ["PHP", "IOP", "OP", "Medication Management", "Case Management"],
     insurances: [
       {name: "Cigna", verified: true},
       {name: "Aetna", verified: false},
@@ -555,11 +775,12 @@ const facilities = [
       {name: "Magellan", verified: false},
       {name: "Self-Pay", verified: false}
     ],
-    focus: "Substance abuse, dual diagnosis, 12-step, Spanish-speaking track",
-    accreditation: "Joint Commission",
+    focus: "47-bed PHP / 18-bed IOP / OP — SUD, trauma, MH disorders (schizo, bipolar, depression), opioid, alcohol. Methods: CBT, DBT, experiential therapy, group therapy, AA/NA, medication mgmt, HIV education, nutrition groups, spiritual evolution, life skills. Spanish-speaking track.",
+    accreditation: "Joint Commission, DCF, FARR",
     loc: ["Outpatient"],
     services: ["CBT", "DBT", "EMDR", "Trauma Informed", "Family Therapy", "Group Therapy", "MAT"],
-    source: "Rehabs.org + Your intel"
+    source: "Rehabs.org + Your intel",
+    contact: "Adrian — (678) 577-2637"
   },
   {
     id: 4,
@@ -634,7 +855,8 @@ const facilities = [
     accreditation: "Joint Commission, SAMHSA, FL DCF",
     loc: ["Inpatient", "Outpatient"],
     services: ["CBT", "DBT", "EMDR", "Trauma Informed", "Family Therapy", "Group Therapy", "MAT", "Psych Evals"],
-    source: "Psychology Today + Website"
+    source: "Psychology Today + Website",
+    contact: "Gio — (772) 212-5884"
   },
   {
     id: 7,
@@ -684,7 +906,8 @@ const facilities = [
     acceptsUninsured: true,
     loc: ["Outpatient", "Case Management"],
     services: ["CBT", "Trauma Informed", "Family Therapy", "Group Therapy", "MAT", "Marriage/Couples", "Psych Evals"],
-    source: "Website insurance page"
+    source: "Website insurance page",
+    contact: "Shannon Riley — (645) 296-7398"
   },
   {
     id: 9,
@@ -734,10 +957,14 @@ const facilities = [
     diagnosis: "Substance Use",
     treatments: ["Detox", "Residential", "MAT", "Holistic Therapy", "Aftercare"],
     insurances: [
-      {name: "⚠️ Verify — no public list", verified: false}
+      {name: "Aetna", verified: false},
+      {name: "BCBS", verified: false},
+      {name: "Cigna", verified: false},
+      {name: "Humana", verified: false},
+      {name: "UHC", verified: false}
     ],
-    focus: "Drug & alcohol detox, residential addiction treatment (30/60/90 day), holistic therapies (acupuncture, aromatherapy, massage, nutrition)",
-    accreditation: "Licensed",
+    focus: "Drug & alcohol detox, residential addiction treatment (30/60/90 day), holistic therapies (acupuncture, aromatherapy, massage, nutrition). Joint Commission accredited.",
+    accreditation: "Joint Commission",
     loc: ["Inpatient"],
     services: ["MAT"],
     source: "Website + Recovery.com"
@@ -817,7 +1044,8 @@ const facilities = [
     acceptsUninsured: true,
     loc: ["Case Management"],
     services: [],
-    source: "Business card"
+    source: "Business card",
+    contact: "Dr. Jamie Huysman — (305) 303-4000"
   },
   {
     id: 16,
@@ -847,7 +1075,10 @@ const facilities = [
     diagnosis: "Mental Health",
     treatments: ["Psychiatry", "Medication Management", "Individual Therapy", "Counseling"],
     insurances: [
-      {name: "⚠️ Verify — call office", verified: false}
+      {name: "Aetna", verified: false},
+      {name: "BCBS", verified: false},
+      {name: "Cigna", verified: false},
+      {name: "UHC", verified: false}
     ],
     focus: "Adult, adolescent & child psychiatry — depression, anxiety, PTSD, bipolar, ADHD, OCD, postpartum. Telehealth available statewide.",
     accreditation: "Licensed Psychiatrist (FL)",
@@ -1590,20 +1821,25 @@ const facilities = [
   {
     id: 57,
     name: "Regional Management Care",
-    address: "Broward County, FL",
-    city: "Broward County",
-    phone: "⚠️ Verify",
-    website: "",
+    address: "4970 W Atlantic Blvd, Margate, FL 33064",
+    city: "Margate",
+    phone: "(954) 474-7373",
+    website: "https://regionalmc.org",
     diagnosis: "Mental Health",
-    treatments: ["Case Management", "Care Coordination"],
+    treatments: ["PSR", "Individual Therapy", "Grief Therapy", "Targeted Case Management"],
     insurances: [
-      {name: "⚠️ Verify — call office", verified: false}
+      {name: "Aetna", verified: false},
+      {name: "BCBS", verified: false},
+      {name: "Cigna", verified: false},
+      {name: "UHC", verified: false},
+      {name: "Humana", verified: false}
     ],
-    focus: "Behavioral health care management and coordination services",
+    focus: "Comprehensive behavioral health & targeted case management — PSR (psychosocial rehabilitation), grief therapy, individual therapy. Margate office.",
     accreditation: "Licensed",
-    loc: ["Case Management"],
-    services: [],
-    source: "Spreadsheet"
+    loc: ["Outpatient", "Case Management"],
+    services: ["CBT", "Group Therapy", "Psych Evals"],
+    source: "regionalmc.org",
+    contact: "Brian — (754) 610-9535"
   },
   {
     id: 58,
@@ -1680,7 +1916,8 @@ const facilities = [
     acceptsUninsured: true,
     loc: ["Inpatient", "Outpatient"],
     services: ["CBT", "DBT", "ECT", "Trauma Informed", "Group Therapy", "Family Therapy", "Psych Evals", "MAT"],
-    source: "ftlauderdalebehavioral.com + BBHC + NAMI Broward"
+    source: "ftlauderdalebehavioral.com + BBHC + NAMI Broward",
+    contact: "Brandon-Ray Brown — (954) 593-8762"
   },
   {
     id: 62,
@@ -1891,6 +2128,923 @@ const facilities = [
     loc: ["Outpatient"],
     services: ["CBT", "EMDR", "Trauma Informed", "Marriage/Couples", "Family Therapy", "Group Therapy"],
     source: "powerfulmh.com"
+  },
+  {
+    id: 73,
+    name: "1st Step Behavioral Health",
+    address: "Pompano Beach, FL 33069",
+    city: "Pompano Beach",
+    phone: "(866) 971-5531",
+    website: "https://firststepbh.com",
+    diagnosis: "Dual Diagnosis",
+    treatments: ["Residential", "Detox", "PHP", "IOP", "MAT", "Long-Term Care"],
+    insurances: [
+      {name: "Aetna", verified: false},
+      {name: "BCBS", verified: false},
+      {name: "Cigna", verified: false},
+      {name: "Humana", verified: false},
+      {name: "UHC", verified: false},
+      {name: "Medicaid", verified: false},
+      {name: "Medicare", verified: false},
+      {name: "TRICARE", verified: false}
+    ],
+    focus: "Licensed dual-diagnosis long-term addiction treatment — substance abuse, co-occurring MH, individualized care, family therapy. Joint Commission accredited. Founded by Gus Crocco, LCSW.",
+    accreditation: "Joint Commission",
+    loc: ["Inpatient", "Outpatient"],
+    services: ["CBT", "DBT", "Trauma Informed", "Family Therapy", "Group Therapy", "MAT", "Psych Evals"],
+    source: "Recovery.com + Psychology Today + firststepbh.com"
+  },
+  {
+    id: 74,
+    name: "Archways Behavioral Health",
+    address: "919 NE 13th St, Fort Lauderdale, FL 33304",
+    city: "Fort Lauderdale",
+    phone: "(954) 763-2030",
+    website: "https://archways.org",
+    diagnosis: "Dual Diagnosis",
+    treatments: ["Residential", "PSR", "Supported Housing", "Case Management", "Supported Employment", "Prevention"],
+    insurances: [
+      {name: "Medicaid", verified: false},
+      {name: "Sliding Fee Scale", verified: false}
+    ],
+    focus: "Nonprofit since 1983 — clubhouse model, PSR, residential (group homes/supervised apartments), medication management, supported employment (IPS), substance abuse prevention for youth ages 5-17. Serves adults with severe/persistent MI and co-occurring disorders.",
+    accreditation: "CARF Accredited, BBHC Provider, Nonprofit",
+    acceptsUninsured: true,
+    loc: ["Inpatient", "Outpatient", "Case Management"],
+    services: ["CBT", "Group Therapy", "Psych Evals"],
+    source: "archways.org + BBHC + GuideStar + Business card",
+    contact: "Melissa Reesor — (954) 763-2030 ext 229"
+  },
+  {
+    id: 75,
+    name: "Assurance of Hope",
+    address: "Broward County, FL",
+    city: "Broward County",
+    phone: "⚠️ Verify",
+    website: "",
+    diagnosis: "Mental Health",
+    treatments: ["Behavioral Health", "Counseling"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Behavioral health services",
+    accreditation: "Licensed",
+    loc: ["Outpatient"],
+    services: [],
+    source: "User list"
+  },
+  {
+    id: 76,
+    name: "Covenant House Florida — Fort Lauderdale",
+    address: "733 Breakers Ave, Fort Lauderdale, FL 33304",
+    city: "Fort Lauderdale",
+    phone: "(954) 561-5559",
+    website: "https://covenanthousefl.org",
+    diagnosis: "Youth Services",
+    treatments: ["Emergency Shelter", "Transitional Housing", "Case Management", "Education", "Job Training"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "Youth homeless shelter — ages 18-24, emergency shelter, transitional living, case management, education/GED, job training, mental health counseling. Nonprofit.",
+    accreditation: "501(c)(3) Nonprofit",
+    acceptsUninsured: true,
+    loc: ["Inpatient", "Case Management"],
+    services: ["Trauma Informed", "Group Therapy"],
+    source: "covenanthousefl.org"
+  },
+  {
+    id: 77,
+    name: "James Club Recovery",
+    address: "Oakland Park, FL 33334",
+    city: "Oakland Park",
+    phone: "(954) 445-0430",
+    website: "https://jamesclubrecovery.com",
+    diagnosis: "Substance Use",
+    treatments: ["Sober Living", "MAT Housing", "4-Phase Program", "12-Step"],
+    insurances: [
+      {name: "Self-Pay", verified: false}
+    ],
+    focus: "FARR & MAT certified recovery residences for men & women — 4-phase program (9-12 months), no time limit on stay. MAT housing (buprenorphine/methadone/naltrexone). Fort Lauderdale & Oakland Park locations. Since 2016.",
+    accreditation: "FARR Certified, MAT Certified",
+    loc: ["Inpatient"],
+    services: ["MAT", "Group Therapy"],
+    source: "jamesclubrecovery.com"
+  },
+  {
+    id: 78,
+    name: "NAMI Broward County",
+    address: "4161 NW 5th St, Suite 203, Plantation, FL 33317",
+    city: "Plantation",
+    phone: "(954) 316-9907",
+    website: "https://namibroward.org",
+    diagnosis: "Nonprofit",
+    treatments: ["Support Groups", "Education", "Advocacy", "Peer Support"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "National Alliance on Mental Illness — free support groups, family education (Family-to-Family), peer-to-peer programs, advocacy, crisis resources. Not a treatment provider — a support & education org.",
+    accreditation: "NAMI Affiliate, 501(c)(3)",
+    acceptsUninsured: true,
+    loc: ["Case Management"],
+    services: ["Family Therapy", "Group Therapy"],
+    source: "namibroward.org"
+  },
+  {
+    id: 79,
+    name: "Nana House Inc",
+    address: "2053 N University Dr, Sunrise, FL 33322",
+    city: "Sunrise",
+    phone: "1-866-838-NANA",
+    website: "https://nanahelphouse.com",
+    diagnosis: "Dual Diagnosis",
+    treatments: ["PHP", "IOP", "OP", "Dual Diagnosis", "12-Step", "Relapse Prevention", "Family Program"],
+    insurances: [
+      {name: "Aetna", verified: false},
+      {name: "BCBS", verified: false},
+      {name: "Cigna", verified: false},
+      {name: "UHC", verified: false},
+      {name: "Humana", verified: false}
+    ],
+    focus: "Drug & alcohol rehab — PHP (6 days/week), IOP, OP, dual diagnosis, 12-step facilitation, relapse prevention, family program. Accepts mothers with children ages 0-12. 24/7 operation. Founded by Jason Jimeno.",
+    accreditation: "Licensed",
+    loc: ["Outpatient"],
+    services: ["CBT", "Family Therapy", "Group Therapy"],
+    source: "nanahelphouse.com"
+  },
+  {
+    id: 80,
+    name: "Nirvana Mental Health Services",
+    address: "3409 Powerline Rd, Suite 1104, Fort Lauderdale, FL 33309",
+    city: "Fort Lauderdale",
+    phone: "(561) 962-0792",
+    website: "https://nirvanamhs.com",
+    diagnosis: "Mental Health",
+    treatments: ["Psychiatry", "Medication Management", "Individual Therapy", "Group Therapy", "PSR", "Case Management", "Telehealth"],
+    insurances: [
+      {name: "Medicaid", verified: true},
+      {name: "Aetna", verified: true},
+      {name: "Ambetter", verified: true},
+      {name: "Humana", verified: true},
+      {name: "UHC", verified: true},
+      {name: "Sunshine", verified: true},
+      {name: "Simply", verified: true},
+      {name: "CarePlus", verified: true},
+      {name: "HealthSun", verified: true},
+      {name: "CMS", verified: true},
+      {name: "Community Care Plan", verified: true},
+      {name: "AmeriHealth Caritas", verified: true},
+      {name: "Clear Health Alliance", verified: true}
+    ],
+    focus: "Adults 18+ with serious MI — psychiatry, med mgmt (in-person/telehealth), individual therapy, group therapy (1-2x/week), day rehab/PSR (clubhouse, meals provided), case management. Transportation available. Requires current medical insurance.",
+    accreditation: "FL AHCA Licensed",
+    loc: ["Outpatient", "Case Management"],
+    services: ["CBT", "Group Therapy", "Psych Evals"],
+    source: "nirvanamhs.com + facility flyer"
+  },
+  {
+    id: 81,
+    name: "Guardian Recovery",
+    address: "3333 S Congress Ave, Suite 400, Delray Beach, FL 33445",
+    city: "Delray Beach",
+    phone: "(561) 763-9642",
+    website: "https://www.guardianrecovery.com",
+    diagnosis: "Dual Diagnosis",
+    treatments: ["Detox", "Residential", "PHP", "IOP", "MAT", "Adolescent Program"],
+    insurances: [
+      {name: "Aetna", verified: false},
+      {name: "BCBS", verified: false},
+      {name: "Cigna", verified: false},
+      {name: "Humana", verified: false},
+      {name: "UHC", verified: false}
+    ],
+    noMedicaid: true,
+    focus: "National network — detox, residential, PHP, IOP, MAT, gender-specific, adolescent program (girls 13-17 at Boca location). Evidence-based + holistic therapies, 12-step, family restructuring. NO Medicaid/Medicare. Joint Commission accredited.",
+    accreditation: "Joint Commission",
+    loc: ["Inpatient", "Outpatient"],
+    services: ["CBT", "DBT", "EMDR", "Trauma Informed", "Family Therapy", "Group Therapy", "MAT"],
+    source: "guardianrecovery.com + Recovery.com + Psychology Today"
+  },
+  {
+    id: 82,
+    name: "Florida Healthcare System (Keralty BH)",
+    address: "7061 Cypress Rd, Suite 101, Plantation, FL 33317",
+    city: "Plantation",
+    phone: "(954) 372-0603",
+    website: "https://hcsflorida.com",
+    diagnosis: "Mental Health",
+    treatments: ["Psychiatry", "Therapy", "Medication Management", "Telehealth", "In-Home", "School-Based"],
+    insurances: [
+      {name: "Medicaid", verified: false},
+      {name: "Aetna", verified: false},
+      {name: "BCBS", verified: false},
+      {name: "Cigna", verified: false},
+      {name: "UHC", verified: false},
+      {name: "Humana", verified: false}
+    ],
+    focus: "Keralty company — outpatient MH via office, home, community & telehealth. Psych evals, medication management, therapy. Youth autism services. 3 locations (Broward/Miami/WPB). Since 2012.",
+    accreditation: "Licensed",
+    loc: ["Outpatient"],
+    services: ["CBT", "Trauma Informed", "Family Therapy", "Psych Evals"],
+    source: "hcsflorida.com + LinkedIn",
+    contact: "Melodie Wolter — (754) 301-3142"
+  },
+  {
+    id: 83,
+    name: "Medical Consultants of South Florida",
+    address: "7501 Wiles Rd, #104, Coral Springs, FL 33067",
+    city: "Coral Springs",
+    phone: "(954) 755-4994",
+    website: "https://medconsultantsfl.com",
+    diagnosis: "Primary Care",
+    treatments: ["Primary Care", "Psychiatry", "Medication Management"],
+    insurances: [
+      {name: "Aetna", verified: false},
+      {name: "BCBS", verified: false},
+      {name: "Cigna", verified: false},
+      {name: "UHC", verified: false},
+      {name: "Humana", verified: false}
+    ],
+    focus: "Medical/psychiatric practice — Emily Slutsky, APRN. Primary care with behavioral health integration.",
+    accreditation: "Licensed APRN",
+    loc: ["Outpatient"],
+    services: ["Psych Evals"],
+    source: "Business card"
+  },
+  {
+    id: 84,
+    name: "Faith Farm Ministries",
+    address: "1980 NW 9 Ave, Fort Lauderdale, FL 33311",
+    city: "Fort Lauderdale",
+    phone: "(954) 763-7787",
+    website: "https://www.faithfarm.org",
+    diagnosis: "Nonprofit",
+    treatments: ["Residential", "Counseling", "Work Training", "Education", "Celebrate Recovery"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "FREE 10-month faith-based residential addiction recovery — 350+ men & women. Counseling, education, GED/college credit, work training, Celebrate Recovery (12-step). 3 FL campuses. 70+ years serving community. Nonprofit.",
+    accreditation: "501(c)(3) Nonprofit",
+    acceptsUninsured: true,
+    loc: ["Inpatient"],
+    services: ["CBT", "Trauma Informed", "Group Therapy"],
+    source: "faithfarm.org + Recovery.com",
+    contact: "Rev. Ramon Ayala — (561) 676-2554"
+  },
+  {
+    id: 85,
+    name: "Tomorrow's Rainbow",
+    address: "4341 NW 39th Ave, Coconut Creek, FL 33073",
+    city: "Coconut Creek",
+    phone: "(954) 283-8558",
+    website: "https://tomorrowsrainbow.org",
+    diagnosis: "Youth Services",
+    treatments: ["Children's Therapy", "Quality Assurance", "Family Support"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Guiding children back to joy — youth behavioral health services, licensed clinician support.",
+    accreditation: "Licensed",
+    loc: ["Outpatient"],
+    services: ["Play Therapy", "Family Therapy"],
+    source: "Business card",
+    contact: "Yanique Taylor — (754) 732-0994"
+  },
+  {
+    id: 86,
+    name: "5A Therapy — Timothy Collins Jr., LMHC",
+    address: "South Florida",
+    city: "Broward County",
+    phone: "(786) 495-6503",
+    website: "https://www.5ATherapy.com",
+    diagnosis: "Mental Health",
+    treatments: ["Individual Therapy", "Counseling"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Licensed Mental Health Counselor — individual therapy, 'Become Your Truth.'",
+    accreditation: "LMHC Licensed",
+    loc: ["Outpatient"],
+    services: ["CBT", "Trauma Informed"],
+    source: "Business card",
+    contact: "Timothy Collins Jr. — (786) 495-6503"
+  },
+  {
+    id: 87,
+    name: "Marriage & Family Services Inc",
+    address: "1776 N Pine Island Rd, Suite 208, Plantation, FL 33322",
+    city: "Plantation",
+    phone: "(786) 635-7571",
+    website: "https://marriagefamilyservices.com",
+    diagnosis: "Mental Health",
+    treatments: ["Marriage Counseling", "Family Therapy", "Individual Therapy"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Dr. Tammara L. Lewis, LMHC — Clinical Director. Marriage & family counseling, individual therapy.",
+    accreditation: "LMHC Licensed",
+    loc: ["Outpatient"],
+    services: ["Marriage/Couples", "Family Therapy", "CBT"],
+    source: "Business card"
+  },
+  {
+    id: 88,
+    name: "The WonderKids Center",
+    address: "South Florida",
+    city: "Broward County",
+    phone: "(754) 206-2953",
+    website: "",
+    diagnosis: "Youth Services",
+    treatments: ["Pediatric Therapy", "Extended Care"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Prescribed Pediatric Extended Care — 'We Welcome All Children.' Michelle Olavarria, Administrator.",
+    accreditation: "Licensed",
+    loc: ["Outpatient"],
+    services: ["Play Therapy"],
+    source: "Business card",
+    contact: "Michelle Olavarria — (305) 213-1877"
+  },
+  {
+    id: 89,
+    name: "Augustin & Augustin Psychology",
+    address: "499 NW 70th Ave, Suite 105, Plantation, FL 33317",
+    city: "Plantation",
+    phone: "(954) 947-1343",
+    website: "https://augustinpsychology.com",
+    diagnosis: "Mental Health",
+    treatments: ["Psychology", "Psych Testing", "Individual Therapy"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Josie A. Augustin, Ph.D. — Licensed Psychologist. Services tailored to you & your unique needs.",
+    accreditation: "Licensed Psychologist (FL)",
+    loc: ["Outpatient"],
+    services: ["CBT", "Psych Evals"],
+    source: "Business card"
+  },
+  {
+    id: 90,
+    name: "Home for Balance Psychotherapy Group",
+    address: "5300 W Hillsboro Blvd, Suite 210, Coconut Creek, FL 33073",
+    city: "Coconut Creek",
+    phone: "(561) 305-2497",
+    website: "https://www.homeforbalance.com",
+    diagnosis: "Mental Health",
+    treatments: ["Individual Therapy", "Couples Therapy", "Family Therapy"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Carolina Gaviria, LMHC, NCC, CEDS-C — Psychotherapist. Eating disorders, individual/couples/family therapy.",
+    accreditation: "LMHC Licensed",
+    loc: ["Outpatient"],
+    services: ["CBT", "Marriage/Couples", "Family Therapy"],
+    source: "Business card"
+  },
+  {
+    id: 91,
+    name: "Brain Balance — Coral Springs",
+    address: "700 N University Dr, Suite 220, Coral Springs, FL 33071",
+    city: "Coral Springs",
+    phone: "(954) 908-6892",
+    website: "https://brainbalance.com",
+    diagnosis: "Youth Services",
+    treatments: ["Neurodevelopmental Program", "ADHD Support", "Autism Support"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Whole-child approach to ADHD, anxiety, autism spectrum, learning disorders. Elisheba C. Auza, Assistant Director.",
+    accreditation: "National Franchise",
+    loc: ["Outpatient"],
+    services: [],
+    source: "Business card"
+  },
+  {
+    id: 92,
+    name: "Hope Center Ministries",
+    address: "South Florida",
+    city: "Broward County",
+    phone: "(561) 590-2843",
+    website: "https://www.hopecm.com",
+    diagnosis: "Substance Use",
+    treatments: ["Residential", "Faith-Based Recovery"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Faith-based addiction recovery program. Miguel Palacios — Admissions Coordinator & Legal Liaison.",
+    accreditation: "Licensed",
+    loc: ["Inpatient"],
+    services: ["Group Therapy"],
+    source: "Business card",
+    contact: "Miguel Palacios — (561) 590-2843"
+  },
+  {
+    id: 93,
+    name: "TaskForce for Ending Homelessness",
+    address: "P.O. Box 1659, Fort Lauderdale, FL 33302",
+    city: "Fort Lauderdale",
+    phone: "(954) 525-3494",
+    website: "https://taskforcefl.org",
+    diagnosis: "Nonprofit",
+    treatments: ["Housing Navigation", "Case Management", "Outreach", "Therapy"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "Fore Ending Homelessness — housing navigation, outreach, case management, on-site therapist. Camille Eisenmann (Housing Nav), Angela Permenter (Therapist).",
+    accreditation: "501(c)(3) Nonprofit",
+    acceptsUninsured: true,
+    loc: ["Case Management"],
+    services: [],
+    source: "Business card",
+    contact: "Camille Eisenmann — (954) 939-4060"
+  },
+  {
+    id: 94,
+    name: "Estefany Quijano, RMFTI",
+    address: "4801 S University Dr, Suite 229, Davie, FL 33328",
+    city: "Davie",
+    phone: "(754) 229-0912",
+    website: "https://flhuman.com",
+    diagnosis: "Mental Health",
+    treatments: ["Marriage Therapy", "Family Therapy", "Individual Therapy"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Registered Marriage and Family Therapist (RMFT) — individual, marriage & family therapy.",
+    accreditation: "RMFT Licensed",
+    loc: ["Outpatient"],
+    services: ["Marriage/Couples", "Family Therapy"],
+    source: "Business card"
+  },
+  {
+    id: 95,
+    name: "Fu Di, AP, MD (China) — Acupuncture",
+    address: "8050 N University Dr, Suite 103, Tamarac, FL 33321",
+    city: "Tamarac",
+    phone: "(954) 752-8888",
+    website: "",
+    diagnosis: "Primary Care",
+    treatments: ["Acupuncture", "Traditional Chinese Medicine"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Licensed Acupuncture Physician, MD (China). Traditional Chinese medicine, acupuncture.",
+    accreditation: "AP Licensed (FL)",
+    loc: ["Outpatient"],
+    services: [],
+    source: "Business card"
+  },
+  {
+    id: 96,
+    name: "Broward County Human Services — Elderly & Veterans",
+    address: "1 N University Dr, Suite 4108B, Plantation, FL 33324",
+    city: "Plantation",
+    phone: "(954) 357-6622",
+    website: "https://broward.org",
+    diagnosis: "Nonprofit",
+    treatments: ["Case Management", "Resource Navigation", "Veterans Services"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "Government — Elderly and Veterans Services Division. Resource navigation, case management, benefits assistance.",
+    accreditation: "Broward County Government",
+    acceptsUninsured: true,
+    loc: ["Case Management"],
+    services: [],
+    source: "Business card",
+    contact: "Allison Thomas Latorre — (954) 357-6622"
+  },
+  {
+    id: 97,
+    name: "Broward County Human Services — HOSS-D (Housing)",
+    address: "115 S Andrews Ave, Fort Lauderdale, FL 33301",
+    city: "Fort Lauderdale",
+    phone: "(954) 357-5185",
+    website: "https://broward.org",
+    diagnosis: "Nonprofit",
+    treatments: ["Housing Navigation", "Case Management", "Resource Navigation"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "Government — Housing Options, Solutions and Supports Division (HOSS-D). Housing navigation, supportive services, homelessness prevention.",
+    accreditation: "Broward County Government",
+    acceptsUninsured: true,
+    loc: ["Case Management"],
+    services: [],
+    source: "Business card",
+    contact: "Evaldo Mariano Nicot — (954) 357-5185"
+  },
+  {
+    id: 98,
+    name: "Right at Home — Plantation",
+    address: "Plantation, FL",
+    city: "Plantation",
+    phone: "(954) 357-2048",
+    website: "https://www.rightathome.net/plantation",
+    diagnosis: "Assisted Living",
+    treatments: ["In-Home Care", "Companion Care", "Personal Care"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "In-home care & assistance — companion care, personal care, skilled nursing, senior care. Karine Bertil Alquier, President/Owner.",
+    accreditation: "Licensed Home Health",
+    loc: ["Case Management"],
+    services: [],
+    source: "Business card",
+    contact: "Karine Bertil Alquier — (754) 249-9903"
+  },
+  {
+    id: 99,
+    name: "Omega Women's Care",
+    address: "5695 Coral Ridge Dr, Coral Springs, FL 33076",
+    city: "Coral Springs",
+    phone: "(954) 755-1411",
+    website: "https://www.omegawomenscare.com",
+    diagnosis: "Primary Care",
+    treatments: ["OB/GYN", "Women's Health", "Prenatal Care"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "OB/GYN women's health — prenatal care, women's wellness. Shannon Goldstein, Practice Administrator.",
+    accreditation: "Licensed Medical Practice",
+    loc: ["Outpatient"],
+    services: [],
+    source: "Business card"
+  },
+  {
+    id: 100,
+    name: "Diverse Dependable Housing",
+    address: "South Florida",
+    city: "Broward County",
+    phone: "(786) 733-4838",
+    website: "https://diversedependablehousingllc.net",
+    diagnosis: "Assisted Living",
+    treatments: ["Shared Living", "Transitional Housing", "Affordable Housing"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Housing Solution Provider — shared living, transitional & affordable housing. 'Stability Today. Opportunities Tomorrow.' Churaney McBean.",
+    accreditation: "Licensed",
+    loc: ["Inpatient"],
+    services: [],
+    source: "Business card",
+    contact: "Churaney McBean — (786) 733-4838"
+  },
+  {
+    id: 101,
+    name: "Love Thy Neighbor — Culinary Skills Training",
+    address: "920 NW 7th Ave, Fort Lauderdale, FL 33311",
+    city: "Fort Lauderdale",
+    phone: "(954) 683-3832",
+    website: "https://www.lovethyneighbor.org",
+    diagnosis: "Nonprofit",
+    treatments: ["Culinary Training", "Job Skills", "Community Support"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "Helping the Homeless — culinary skills training program, job readiness. 'Give A Hand Up - Not A Hand Out.' Martyna Kilsheimer.",
+    accreditation: "501(c)(3) Nonprofit",
+    acceptsUninsured: true,
+    loc: ["Case Management"],
+    services: [],
+    source: "Business card",
+    contact: "Martyna Kilsheimer — (954) 683-3832"
+  },
+  {
+    id: 102,
+    name: "Aida Sek, LCSW — Counseling & Consulting",
+    address: "Boca Raton, FL 33486",
+    city: "Boca Raton",
+    phone: "(561) 506-8450",
+    website: "https://aidasek.com",
+    diagnosis: "Mental Health",
+    treatments: ["Individual Therapy", "Adolescent Therapy", "Telehealth", "EMDR", "Immigration Evals"],
+    insurances: [
+      {name: "Aetna", verified: true},
+      {name: "Cigna", verified: true},
+      {name: "UHC", verified: true}
+    ],
+    focus: "Bilingual LCSW (English/Spanish) — trauma, PTSD, addiction/codependency, anxiety, depression, grief, domestic violence, multicultural/adjustment issues. EMDR certified. Immigration psychosocial evaluations. Telehealth only (FL, CO, VA). 20+ years experience. Former Director of Clinical Services at Guardian Recovery.",
+    accreditation: "LCSW Licensed (FL #SW15955, CO)",
+    loc: ["Outpatient"],
+    services: ["CBT", "EMDR", "Trauma Informed", "Family Therapy"],
+    source: "Psychology Today + aidasek.com"
+  },
+  {
+    id: 103,
+    name: "SoFlo Wellness & Recovery",
+    address: "South Florida",
+    city: "Broward County",
+    phone: "(561) 501-1029",
+    website: "https://soflowellnessrecovery.com",
+    diagnosis: "Dual Diagnosis",
+    treatments: ["Mental Health", "SUD", "MAT", "Therapy", "Peer Counseling", "Case Management"],
+    insurances: [
+      {name: "Aetna", verified: false},
+      {name: "BCBS", verified: false},
+      {name: "Cigna", verified: false},
+      {name: "UHC", verified: false},
+      {name: "Humana", verified: false}
+    ],
+    focus: "Whole-person healing — MH, SUD, MAT, therapy, peer counseling, case management. Evidence-based treatments for physical, mental, emotional & spiritual well-being.",
+    accreditation: "Licensed",
+    loc: ["Outpatient", "Case Management"],
+    services: ["CBT", "MAT", "Group Therapy", "Trauma Informed"],
+    source: "Facility banner + soflowellnessrecovery.com"
+  },
+  {
+    id: 104,
+    name: "Reaching Stars ABA",
+    address: "Suite 110, Broward County, FL",
+    city: "Broward County",
+    phone: "(954) 323-6748",
+    website: "https://www.reachingstarsaba.com",
+    diagnosis: "ABA Therapy",
+    treatments: ["1-on-1 ABA Therapy", "Parent Training", "Behavior Reduction", "Social Skills", "Communication Skills"],
+    insurances: [
+      {name: "Aetna", verified: false},
+      {name: "BCBS", verified: false},
+      {name: "Cigna", verified: false},
+      {name: "UHC", verified: false},
+      {name: "Humana", verified: false},
+      {name: "Medicaid", verified: false}
+    ],
+    focus: "ABA therapy for children — 1-on-1 sessions, parent training & support, behavior reduction, social & communication skill building. In-home or in-office. ALL insurances accepted. FREE transportation.",
+    accreditation: "Licensed",
+    loc: ["Outpatient"],
+    services: ["Play Therapy", "Family Therapy"],
+    source: "Door sign + reachingstarsaba.com"
+  },
+  {
+    id: 105,
+    name: "Peace Medical — Dr. James Milne, D.O.",
+    address: "5333 N Dixie Hwy, Suite 204, Oakland Park, FL 33334",
+    city: "Oakland Park",
+    phone: "(954) 776-7566",
+    website: "https://peacemedicalfla.com",
+    diagnosis: "Substance Use",
+    treatments: ["Suboxone Treatment", "MAT", "Medication Management", "Alcoholism Treatment", "Primary Care"],
+    insurances: [
+      {name: "Aetna", verified: false},
+      {name: "BCBS", verified: false},
+      {name: "Medicare", verified: false}
+    ],
+    focus: "Osteopathic physician — Suboxone certified, alcoholism treatment (Vivitrol, Antabuse, Compral, Topamax), medication in-office, 4-visit alcoholism plan. Treating addiction since 1995. Open 6 days/week. English & Spanish.",
+    accreditation: "D.O. Licensed (FL), Suboxone Certified",
+    loc: ["Outpatient"],
+    services: ["MAT"],
+    source: "Facility brochure + Vitals + Yelp"
+  },
+  {
+    id: 106,
+    name: "Providence Community Medical Center",
+    address: "1736 E Commercial Blvd, Fort Lauderdale, FL 33334",
+    city: "Fort Lauderdale",
+    phone: "(954) 267-9696",
+    website: "",
+    diagnosis: "Primary Care",
+    treatments: ["Primary Care", "Medical Services"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Community medical center — primary care services in Fort Lauderdale.",
+    accreditation: "Licensed",
+    loc: ["Outpatient"],
+    services: [],
+    source: "Business card",
+    contact: "Patricia Valliere — (786) 343-1545"
+  },
+  {
+    id: 107,
+    name: "Al-Anon / Alateen — South Florida",
+    address: "South Florida",
+    city: "Broward County",
+    phone: "(954) 491-1915",
+    website: "https://southfloridaal-anon.org",
+    diagnosis: "Nonprofit",
+    treatments: ["Support Groups", "Family Support", "Alateen"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "Help and hope for families and friends of alcoholics — free support group meetings (North & South Broward). Alateen for teens.",
+    accreditation: "Al-Anon Family Groups",
+    acceptsUninsured: true,
+    loc: ["Case Management"],
+    services: ["Family Therapy", "Group Therapy"],
+    source: "Business card",
+    contact: "Len Okyn — (954) 610-3364"
+  },
+  {
+    id: 108,
+    name: "Anchor of Hope Wellness",
+    address: "South Florida",
+    city: "Broward County",
+    phone: "(954) 354-9884",
+    website: "https://www.aohwellness.com",
+    diagnosis: "Mental Health",
+    treatments: ["Therapy", "Psychiatry", "Medication Management"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Therapy, psychiatry & medication management. Jennifer Similien, Founder & CEO.",
+    accreditation: "Licensed",
+    loc: ["Outpatient"],
+    services: ["CBT", "Psych Evals"],
+    source: "Business card",
+    contact: "Jennifer Similien — (954) 354-9884"
+  },
+  {
+    id: 109,
+    name: "Nodelman Counseling & Psychotherapy",
+    address: "Fort Lauderdale, FL",
+    city: "Fort Lauderdale",
+    phone: "(754) 946-6600",
+    website: "https://www.JNodelmanLCSW.com",
+    diagnosis: "Mental Health",
+    treatments: ["EMDR", "Brainspotting", "Individual Therapy", "Trauma Counseling", "Telehealth"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Jordan M. Nodelman, EMDR-Certified, MSW, LCSW, LICSW — trauma/PTSD/C-PTSD, depression, LGBTQI+, first responders, military/veterans, corporate professionals. In-person Ft Lauderdale + telehealth FL/VA/DC.",
+    accreditation: "LCSW, LICSW, EMDR-Certified",
+    loc: ["Outpatient"],
+    services: ["EMDR", "Trauma Informed", "CBT"],
+    source: "Business card"
+  },
+  {
+    id: 110,
+    name: "Broward County Public Schools — Student Services",
+    address: "1400 NW 14th Court, Fort Lauderdale, FL 33311",
+    city: "Fort Lauderdale",
+    phone: "(754) 321-1618",
+    website: "https://browardschools.com",
+    diagnosis: "Youth Services",
+    treatments: ["School Social Work", "Student Support", "Resource Navigation"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "School-based social work & student services — resource navigation, mental health support, family coordination for Broward County public school students.",
+    accreditation: "Broward County Public Schools",
+    acceptsUninsured: true,
+    loc: ["Case Management"],
+    services: ["Family Therapy"],
+    source: "Business card",
+    contact: "Christine Karol, LCSW — (954) 257-6616"
+  },
+  {
+    id: 111,
+    name: "TheraCounsel",
+    address: "4546 N Federal Hwy, Fort Lauderdale, FL 33308",
+    city: "Fort Lauderdale",
+    phone: "(954) 716-6514",
+    website: "https://www.theracounsel.com",
+    diagnosis: "Mental Health",
+    treatments: ["Psychotherapy", "Psychiatry", "Medication Management", "Telehealth", "In-Home"],
+    insurances: [
+      {name: "Aetna", verified: false},
+      {name: "BCBS", verified: false},
+      {name: "Cigna", verified: false},
+      {name: "UHC", verified: false},
+      {name: "Humana", verified: false},
+      {name: "Medicaid", verified: false},
+      {name: "Medicare", verified: false}
+    ],
+    focus: "Group of LCSWs & PMHNPs since 1999 — evidence-based psychotherapy, mindfulness, gratitude training, self-compassion. Children/teens/adults/older adults. In-person + telehealth (weekends telehealth only). Marchman & Baker Act receiving facility. In-network most major insurances.",
+    accreditation: "FL AHCA Licensed",
+    loc: ["Outpatient"],
+    services: ["CBT", "Trauma Informed", "Family Therapy", "Group Therapy"],
+    source: "Brochure + theracounsel.com"
+  },
+  {
+    id: 112,
+    name: "Sailor Health",
+    address: "Virtual — Nationwide",
+    city: "South Florida",
+    phone: "See website",
+    website: "https://www.sailorhealth.com",
+    diagnosis: "Mental Health",
+    treatments: ["Geriatric Psychotherapy", "Telehealth", "Phone Therapy", "Grief Counseling", "Trauma Therapy"],
+    insurances: [
+      {name: "Medicare", verified: true}
+    ],
+    focus: "Senior-specific virtual psychotherapy — licensed geriatric clinicians, English & Spanish speaking. Video or phone sessions (no smartphone required). In-network with Medicare. Anxiety, depression, grief, PTSD, life transitions, caregiver stress.",
+    accreditation: "HIPAA Compliant Telehealth",
+    loc: ["Outpatient"],
+    services: ["CBT", "Trauma Informed", "Group Therapy"],
+    source: "sailorhealth.com",
+    contact: "Caroline Dobbs — (561) 676-0941"
+  },
+  {
+    id: 113,
+    name: "Trustbridge Hospice (Palm Beach / by the Sea)",
+    address: "Palm Beach County / Broward County, FL",
+    city: "South Florida",
+    phone: "(844) 422-3648",
+    website: "https://trustbridge.com",
+    diagnosis: "Primary Care",
+    treatments: ["Hospice Care", "Palliative Care", "Grief Support", "Caregiver Support"],
+    insurances: [
+      {name: "Medicare", verified: false},
+      {name: "Medicaid", verified: false}
+    ],
+    focus: "Hospice of Palm Beach County + Hospice by the Sea — 24/7 admissions, hospice & palliative care, grief support, caregiver resources.",
+    accreditation: "Licensed Hospice",
+    loc: ["Inpatient", "Case Management"],
+    services: [],
+    source: "Business card",
+    contact: "Paola Pirela — cernohealtt.com"
+  },
+  {
+    id: 114,
+    name: "The Benjamin Wellness Center",
+    address: "3939 Hollywood Blvd, Suite 1B, Hollywood, FL 33021",
+    city: "Hollywood",
+    phone: "(954) 251-0267",
+    website: "https://benjaminwellness.com",
+    diagnosis: "Primary Care",
+    treatments: ["Primary Care", "Telehealth", "Home Visits", "Preventive Care"],
+    insurances: [
+      {name: "Medicaid", verified: true}
+    ],
+    focus: "Primary care & wellness — telehealth and home visits in Broward County. Holistic approach, personalized care. Participates in Medicaid (FL DOH confirmed).",
+    accreditation: "FL DOH Licensed (MD)",
+    loc: ["Outpatient"],
+    services: [],
+    source: "Business card + FL DOH MQA"
+  },
+  {
+    id: 115,
+    name: "Broward Healthy Start Coalition / Connect",
+    address: "Broward County, FL",
+    city: "Broward County",
+    phone: "(954) 567-7174",
+    website: "",
+    diagnosis: "Nonprofit",
+    treatments: ["Prenatal Support", "Parent Education", "Resource Navigation"],
+    insurances: [
+      {name: "No Insurance Needed", verified: false}
+    ],
+    focus: "A Program of Florida Healthy Start — community organization providing support, education & resources to pregnant women and parents for a healthy start.",
+    accreditation: "Florida Healthy Start Program",
+    acceptsUninsured: true,
+    loc: ["Case Management"],
+    services: [],
+    source: "Business card"
+  },
+  {
+    id: 116,
+    name: "Fusion Academy — Pembroke Pines",
+    address: "880 SW 145th Ave, Suite 100, Pembroke Pines, FL 33027",
+    city: "Pembroke Pines",
+    phone: "(754) 223-1228",
+    website: "https://fusionacademy.com",
+    diagnosis: "Youth Services",
+    treatments: ["1-to-1 School", "Alternative Education", "Tutoring"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "1-to-1 private school — personalized education for grades 6-12. Alternative to traditional school for students who need individualized learning.",
+    accreditation: "Accredited Private School",
+    loc: ["Outpatient"],
+    services: [],
+    source: "Business card",
+    contact: "LaTasha Golden — (954) 997-6511"
+  },
+  {
+    id: 117,
+    name: "Merit Pharmacy & Medical Supplies",
+    address: "2464 N State Road 7, Lauderdale Lakes, FL 33313",
+    city: "Lauderdale Lakes",
+    phone: "(954) 739-4666",
+    website: "https://meritpharmacyrx.com",
+    diagnosis: "Primary Care",
+    treatments: ["Pharmacy", "Medical Supplies", "Free Delivery"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Good Neighbor Pharmacy — prescription medications, medical supplies, free delivery. Mon-Fri 9am-6pm. Christos Makrides RPh, Allan Mendez PharmD.",
+    accreditation: "Licensed Pharmacy",
+    loc: ["Outpatient"],
+    services: [],
+    source: "Business card"
+  },
+  {
+    id: 118,
+    name: "Happy Kids Pediatric Clinic of Broward",
+    address: "5640 W Atlantic Blvd, Margate, FL 33063",
+    city: "Margate",
+    phone: "(954) 657-8060",
+    website: "https://www.toplinemd.com/happy-kids-pediatric-clinic-of-broward/",
+    diagnosis: "Primary Care",
+    treatments: ["Pediatrics", "Well Child Visits", "Immunizations"],
+    insurances: [
+      {name: "⚠️ Verify — call office", verified: false}
+    ],
+    focus: "Pediatric clinic — Dr. Carmen Mejia-Carvajal, MD, FAAP. Well child visits, sick visits, immunizations, school physicals.",
+    accreditation: "Board Certified Pediatrician (FAAP)",
+    loc: ["Outpatient"],
+    services: [],
+    source: "Business card"
   }
 ];
 
@@ -2129,6 +3283,23 @@ function openModal(id) {
       <div style="font-size:0.8rem;color:var(--text-secondary)">${f.source}</div>
     </div>
 
+    ${f.contact ? `
+    <div class="modal-section">
+      <div class="modal-section-title">My Contact</div>
+      <div class="poc-wrap">
+        <div>
+          <div class="poc-value" id="pocText-${f.id}">${f.contact}</div>
+        </div>
+        <div style="display:flex;align-items:center">
+          <span class="poc-copied" id="pocCopied-${f.id}">Copied!</span>
+          <button class="poc-copy" onclick="event.stopPropagation();copyPOC(${f.id})" aria-label="Copy contact">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    ` : ''}
+
     <div class="modal-actions">
       <a class="modal-action-btn modal-btn-call" href="tel:${f.phone.replace(/[^0-9+]/g,'')}">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
@@ -2154,6 +3325,33 @@ function closeModal(e) {
   }
 }
 
+function copyPOC(id) {
+  const el = document.getElementById('pocText-' + id);
+  if (!el) return;
+  const text = el.textContent;
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => showCopied(id));
+  } else {
+    // Fallback for older iOS
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    showCopied(id);
+  }
+}
+
+function showCopied(id) {
+  const badge = document.getElementById('pocCopied-' + id);
+  if (!badge) return;
+  badge.classList.add('show');
+  setTimeout(() => badge.classList.remove('show'), 1500);
+}
+
 // Swipe down to close modal
 let touchStartY = 0;
 document.querySelector('.modal').addEventListener('touchstart', e => {
@@ -2166,6 +3364,306 @@ document.querySelector('.modal').addEventListener('touchmove', e => {
     document.body.style.overflow = '';
   }
 });
+
+// === SCAN CARD FEATURE ===
+let pendingFacility = null;
+const ANTHROPIC_API_KEY = 'YOUR_API_KEY_HERE'; // Replace with your key from console.anthropic.com
+
+function openScanner() {
+  document.getElementById('scanOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  resetScanner();
+}
+
+function closeScanner() {
+  document.getElementById('scanOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+  document.getElementById('cardPhoto').value = '';
+  pendingFacility = null;
+}
+
+function resetScanner() {
+  document.getElementById('scanPrompt').style.display = '';
+  document.getElementById('scanProcessing').style.display = 'none';
+  document.getElementById('scanReview').style.display = 'none';
+  document.getElementById('scanError').style.display = 'none';
+  document.getElementById('cardPhoto').value = '';
+}
+
+function showScanError(msg) {
+  document.getElementById('scanPrompt').style.display = 'none';
+  document.getElementById('scanProcessing').style.display = 'none';
+  document.getElementById('scanReview').style.display = 'none';
+  document.getElementById('scanError').style.display = '';
+  document.getElementById('scanErrorMsg').textContent = msg || 'Something went wrong. Try again.';
+}
+
+async function handleCardPhoto(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  // Show processing
+  document.getElementById('scanPrompt').style.display = 'none';
+  document.getElementById('scanProcessing').style.display = '';
+  document.getElementById('scanStatus').textContent = 'Reading business card...';
+  document.getElementById('scanSubstatus').textContent = 'Extracting text from image';
+
+  try {
+    // Convert to base64
+    const base64 = await new Promise((res, rej) => {
+      const r = new FileReader();
+      r.onload = () => res(r.result.split(',')[1]);
+      r.onerror = () => rej(new Error('Failed to read file'));
+      r.readAsDataURL(file);
+    });
+
+    const mediaType = file.type || 'image/jpeg';
+
+    document.getElementById('scanStatus').textContent = 'Researching facility...';
+    document.getElementById('scanSubstatus').textContent = 'Searching for insurance, services & accreditation (15-30s)';
+
+    const nextId = Math.max(...facilities.map(f => f.id)) + 1;
+
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2000,
+        tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+        messages: [{
+          role: 'user',
+          content: [
+            {
+              type: 'image',
+              source: { type: 'base64', media_type: mediaType, data: base64 }
+            },
+            {
+              type: 'text',
+              text: `Extract the business card info and research this behavioral health facility. Search the web for their insurance panels, services, accreditation, and address if not on the card.
+
+IMPORTANT: After your research, respond with ONLY a JSON object. No markdown, no backticks, no preamble. Just raw JSON.
+
+Use this exact structure:
+{
+  "id": ${nextId},
+  "name": "Facility Name",
+  "address": "Full street address, City, FL ZIP",
+  "city": "City",
+  "phone": "(XXX) XXX-XXXX",
+  "website": "https://...",
+  "diagnosis": "Mental Health|Substance Use|Dual Diagnosis|Youth Services|Primary Care|Assisted Living|Nonprofit|ABA Therapy",
+  "treatments": ["list","of","treatments"],
+  "insurances": [{"name":"Aetna","verified":false},{"name":"BCBS","verified":false}],
+  "focus": "Brief description of facility, services, specialties",
+  "accreditation": "Joint Commission, CARF, etc or Licensed",
+  "acceptsUninsured": false,
+  "loc": ["Outpatient"],
+  "services": ["CBT","DBT","EMDR","Trauma Informed","Play Therapy","Marriage/Couples","Family Therapy","Group Therapy","Psych Evals","MAT","TMS","ECT"],
+  "source": "where you found the data",
+  "contact": "Name from card — (phone from card)"
+}
+
+Rules:
+- For "diagnosis" pick the BEST single category from the options listed
+- For "insurances" use verified:true ONLY if confirmed on their website or Psychology Today. If they say "most major insurance" without listing specifics, add Aetna/BCBS/Cigna/UHC/Humana as unverified
+- For "contact" use the person's name and phone from the business card
+- For "services" only include items from the list provided that apply
+- For "loc" use Inpatient, Outpatient, and/or Case Management
+- Keep "focus" under 200 characters
+- Search their website and Psychology Today for insurance info`
+            }
+          ]
+        }]
+      })
+    });
+
+    if (!response.ok) {
+      const err = await response.text();
+      console.error('API response error:', err);
+      throw new Error('API error: ' + response.status);
+    }
+
+    let data = await response.json();
+    let messages = [{
+      role: 'user',
+      content: [
+        { type: 'image', source: { type: 'base64', media_type: mediaType, data: base64 } },
+        { type: 'text', text: 'Extract business card and research facility. Return JSON only.' }
+      ]
+    }];
+
+    // Handle tool use loop (web search requires multiple turns)
+    let maxLoops = 10;
+    while (data.stop_reason === 'tool_use' && maxLoops > 0) {
+      maxLoops--;
+      document.getElementById('scanSubstatus').textContent = 'Searching the web for insurance & services...';
+
+      // Add assistant response to messages
+      messages.push({ role: 'assistant', content: data.content });
+
+      // Process all tool uses and create tool results
+      const toolResults = [];
+      for (const block of data.content) {
+        if (block.type === 'tool_use') {
+          toolResults.push({
+            type: 'tool_result',
+            tool_use_id: block.id,
+            content: 'Search completed.'
+          });
+        }
+      }
+      messages.push({ role: 'user', content: toolResults });
+
+      // Continue the conversation
+      const contResponse = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': ANTHROPIC_API_KEY,
+          'anthropic-version': '2023-06-01',
+          'anthropic-dangerous-direct-browser-access': 'true'
+        },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-20250514',
+          max_tokens: 2000,
+          tools: [{ type: 'web_search_20250305', name: 'web_search' }],
+          messages: messages
+        })
+      });
+
+      if (!contResponse.ok) throw new Error('API error on continuation: ' + contResponse.status);
+      data = await contResponse.json();
+    }
+
+    // Extract text from final response
+    const fullText = data.content
+      .filter(item => item.type === 'text')
+      .map(item => item.text)
+      .join('\n');
+
+    if (!fullText.trim()) throw new Error('Invalid response format');
+
+    // Parse JSON — try to find JSON object in the response
+    let facility;
+    try {
+      const clean = fullText.replace(/```json|```/g, '').trim();
+      // Find the JSON object in the text (in case there's extra text around it)
+      const jsonMatch = clean.match(/\{[\s\S]*\}/);
+      if (!jsonMatch) throw new Error('No JSON found');
+      facility = JSON.parse(jsonMatch[0]);
+    } catch (parseErr) {
+      console.error('Parse error. Raw text:', fullText);
+      throw new Error('Invalid response format');
+    }
+
+    // Validate required fields
+    if (!facility.name) throw new Error('Could not read the business card');
+
+    pendingFacility = facility;
+    showReview(facility);
+
+  } catch (err) {
+    console.error('Scan error:', err);
+    if (err.message === 'Could not read the business card') {
+      showScanError('Could not read the business card. Try a clearer photo.');
+    } else if (err.message === 'Invalid response format') {
+      showScanError('Could not parse facility data. Try again with a clearer photo.');
+    } else if (err.message.includes('API error: 401')) {
+      showScanError('API authentication failed. The API key may need to be configured.');
+    } else if (err.message.includes('API error: 429')) {
+      showScanError('Rate limited. Wait a minute and try again.');
+    } else {
+      showScanError('Failed to process. Check your connection and try again.');
+    }
+  }
+}
+
+function showReview(f) {
+  document.getElementById('scanProcessing').style.display = 'none';
+  document.getElementById('scanReview').style.display = '';
+
+  const insHtml = (f.insurances || []).map(i =>
+    `<span class="scan-field-tag${i.verified ? ' verified' : ''}">${i.name}${i.verified ? ' ✓' : ''}</span>`
+  ).join('');
+
+  const treatHtml = (f.treatments || []).map(t =>
+    `<span class="scan-field-tag">${t}</span>`
+  ).join('');
+
+  document.getElementById('scanReviewContent').innerHTML = `
+    <div class="scan-field">
+      <div class="scan-field-label">Facility Name</div>
+      <div class="scan-field-value">${f.name || '—'}</div>
+    </div>
+    <div class="scan-field">
+      <div class="scan-field-label">Address</div>
+      <div class="scan-field-value">${f.address || '—'}</div>
+    </div>
+    <div class="scan-field">
+      <div class="scan-field-label">Phone</div>
+      <div class="scan-field-value">${f.phone || '—'}</div>
+    </div>
+    <div class="scan-field">
+      <div class="scan-field-label">Website</div>
+      <div class="scan-field-value">${f.website || '—'}</div>
+    </div>
+    <div class="scan-field">
+      <div class="scan-field-label">Category</div>
+      <div class="scan-field-value">${f.diagnosis || '—'}</div>
+    </div>
+    <div class="scan-field">
+      <div class="scan-field-label">Treatments</div>
+      <div class="scan-field-tags">${treatHtml || '<span class="scan-field-tag">None found</span>'}</div>
+    </div>
+    <div class="scan-field">
+      <div class="scan-field-label">Insurances</div>
+      <div class="scan-field-tags">${insHtml || '<span class="scan-field-tag">⚠️ Verify</span>'}</div>
+    </div>
+    <div class="scan-field">
+      <div class="scan-field-label">Focus</div>
+      <div class="scan-field-value" style="font-size:0.78rem;line-height:1.4">${f.focus || '—'}</div>
+    </div>
+    ${f.contact ? `
+    <div class="scan-field">
+      <div class="scan-field-label">My Contact</div>
+      <div class="scan-field-value">${f.contact}</div>
+    </div>
+    ` : ''}
+    <div class="scan-field">
+      <div class="scan-field-label">Data Source</div>
+      <div class="scan-field-value" style="font-size:0.72rem;color:var(--text-secondary)">${f.source || 'Business card + web search'}</div>
+    </div>
+  `;
+}
+
+function confirmScan() {
+  if (!pendingFacility) return;
+
+  // Add to facilities array
+  facilities.push(pendingFacility);
+
+  // Rebuild filters and re-render
+  buildInsuranceFilters();
+  render();
+
+  // Close scanner
+  closeScanner();
+
+  // Flash confirmation
+  const toast = document.createElement('div');
+  toast.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#1A73E8;color:#fff;padding:12px 24px;border-radius:24px;font-size:0.85rem;font-weight:500;z-index:3000;box-shadow:0 4px 12px rgba(0,0,0,0.15);';
+  toast.textContent = '✓ ' + pendingFacility.name + ' added';
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2500);
+
+  pendingFacility = null;
+}
 
 // Init
 buildInsuranceFilters();
